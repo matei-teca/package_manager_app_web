@@ -1,4 +1,5 @@
 let rootEl;
+let packageSchema;
 
 const formStructure = () => {
     return `
@@ -73,8 +74,45 @@ const displayForm = () => {
     rootEl.insertAdjacentHTML("beforeend", formStructure());
 }
 
+const changeForm = () => {
+    const nameInputEl = document.getElementById("nameInput");
+    const detailsInputEl = document.getElementById("detailsInput");
+
+    packageSchema = {
+        "id": 1,
+        "name": "npm",
+        "description": "",
+        "dependencies": [],
+        "releases": [
+            {
+                "date": "2022-06-01",
+                "version": "8.12.0"
+            },
+            {
+                "date": "2022-05-25",
+                "version": "8.11.0"
+            }
+        ]
+    };
+
+    nameInputEl.addEventListener("input", (e) => {
+        packageSchema.name = e.target.value;
+
+        console.log(packageSchema);
+    })
+    
+    detailsInput.addEventListener("input", (e) => {
+        packageSchema.description = e.target.value;
+
+        console.log(packageSchema);
+    })
+    
+
+}
+
 const loadEvent = _ => {
     displayForm();
+    changeForm();
 };
 
 window.addEventListener("load", loadEvent);

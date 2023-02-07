@@ -15,6 +15,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("https://wallpaperset.com/w/full/c/3/c/227416.jpg");
+    background-size:cover;
 }
 
 #root {
@@ -22,7 +24,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 90vw;
+    width: 70vw;
     height: 90vh;
     margin-top: 5vh;
     margin-bottom: 5vh;
@@ -32,16 +34,17 @@ body {
 #formContainer{
     background-color: white;
     width: calc(513 / 1.5 * 1px);
-    height: calc(990 / 1.5 * 1px);
+    height: calc(1010 / 1.5 * 1px);
     display: flex;
     justify-content: center;
     font-family: 'Courier New', Courier, monospace;
-
+    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
 
 .title {
     font-size: 14px;
     margin-bottom: 20px;
+    /* text-decoration:; */
 }
 
 #title1 {
@@ -154,12 +157,12 @@ body {
 }
 
 #saveBttn:hover{
-    border: 1px solid white;
-    margin-top: 9px;
+    color: green;
 }
 
 
 #deleteBttn:hover{
-    border: 1px solid black;
-    margin-top: 9px;
+    border: 0.1px solid black;
+    margin-top: 9.9px;
+    color: red;
 }
