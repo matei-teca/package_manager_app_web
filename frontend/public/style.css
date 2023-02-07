@@ -1,0 +1,165 @@
+/* *,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  box-sizing: border-box;
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+} */
+
+body {
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#root {
+    background-color: rgba(255, 0, 0, 0.224);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    height: 90vh;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+
+}
+
+#formContainer{
+    background-color: white;
+    width: calc(513 / 1.5 * 1px);
+    height: calc(990 / 1.5 * 1px);
+    display: flex;
+    justify-content: center;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+.title {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+#title1 {
+    margin-bottom: 10px;
+}
+
+.section {
+    /* background-color: yellow; */
+    display: block;
+    text-align: center;
+    margin-top: 3px;
+    padding: 10px;
+}
+
+#section1{
+    margin-top: 15px;
+}
+
+#nameInput, #detailsInput, #dependencySearchInput{
+    width: 80%;
+    margin-top: 10px;
+    padding: 10px
+}
+
+#detailsInput {
+    resize: none;
+    height: 60px;
+}
+
+/* #pckgDependenciesCont{
+    height: 15%;
+} */
+
+.dependencyItem{
+    /* background-color: green; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 10px;
+    height: 20px;
+    font-size: small;
+    border-bottom: 0.3px solid black;
+
+}
+
+.dependencySubItem{
+    /* background-color: pink; */
+    display: inline-block;
+    /* margin-inline: 18%; */
+    width: 150px;
+}
+
+.dependencyItemBttn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 8px;
+    height:8px;
+    border: 0.3px solid black;
+    border-radius: 100%;
+    padding: 4px;
+    margin-bottom: 5px;
+}
+
+.dependencyItemBttn:hover{
+    cursor: pointer;
+    background-color: red;
+    color: white;
+}
+
+#addNewVersion{
+    border-bottom: none;
+    margin-top: 20px;
+}
+
+#addNewVersionBttn{
+    margin: 0;
+}
+
+#addNewVersionBttn:hover{
+    background-color: green;
+}
+
+#saveBttn, #deleteBttn{
+    width: 80%;
+    margin-left: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border: none;
+    font-size: small;
+    margin-top: 10px;
+    cursor: pointer;
+    font-family: 'Courier New', Courier, monospace;
+
+
+}
+
+#saveBttn {
+    background-color: black;
+    color: white;
+}
+
+#deleteBttn {
+    background-color: white;
+    color: black;
+}
+
+#saveBttn:hover{
+    border: 1px solid white;
+    margin-top: 9px;
+}
+
+
+#deleteBttn:hover{
+    border: 1px solid black;
+    margin-top: 9px;
+}
