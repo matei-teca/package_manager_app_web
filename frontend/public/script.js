@@ -75,6 +75,7 @@ const formStructure = () => {
     `
 }
 
+// Inserting datalist to formStrucutre()
 const createDataList = () => {
     const parentEl = document.getElementById("pckgDependenciesCont");
     datalistEl = document.createElement("datalist");
@@ -83,18 +84,17 @@ const createDataList = () => {
     parentEl.appendChild(datalistEl);
 }
 
-const displayForm = () => {
-    rootEl = document.getElementById("root");
-    rootEl.insertAdjacentHTML("beforeend", formStructure());
+// Fetching the items from pkgs.json via server.js
+const getDependencies = () => {
 
-    createDataList();
+    fetch("/api/package/")
+    .then(res => res.json())
+    .then(data => createDependencyOptions(data));
+
 }
 
-const changeForm = () => {
-    const nameInputEl = document.getElementById("nameInput");
-    const detailsInputEl = document.getElementById("detailsInput");
-    const dependencySearchInputEl = document.getElementById("dependencySearchInput");
-
+//Store the (package schema) object in a global variable
+const storePackageSchema = () => {
     packageSchema = {
         "id": 1,
         "name": "npm",
@@ -111,6 +111,13 @@ const changeForm = () => {
             }
         ]
     };
+}
+
+// Form events 
+const changeForm = () => {
+    const nameInputEl = document.getElementById("nameInput");
+    const detailsInputEl = document.getElementById("detailsInput");
+    const dependencySearchInputEl = document.getElementById("dependencySearchInput");
 
     nameInputEl.addEventListener("input", (e) => {
         packageSchema.name = e.target.value;
@@ -144,31 +151,6 @@ const changeForm = () => {
 
     })
 }
-
-
-const getDependencies = () => {
-
-    fetch("/api/package/")
-    .then(res => res.json())
-    .then(data => dependenciesInput(data));
-
-}
-
-const dependenciesInput = (data) => {
-
-    data.map((el) => {
-        console.log(el);
-
-        let dependencyListEl = document.createElement("option");
-        dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
-        datalistEl.appendChild(dependencyListEl);
-
-        if(currValue === `${el.name} (versionnn ${el.version})`){
-            addedDependencyContent(el.name, el.version);
-        }
-    });
-}
-
 const datalistListEvent = (currValue) => {
     let options = datalistEl.childNodes;
     let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
@@ -186,6 +168,42 @@ const datalistListEvent = (currValue) => {
     // options.map((el, i) => {console.log(options[i])})
 }
 
+// Inserting ALL created html elements into rootDiv of index.html
+const displayForm = () => {
+    rootEl = document.getElementById("root");
+    rootEl.insertAdjacentHTML("beforeend", formStructure());
+
+    createDataList();
+}
+
+//loadEvent
+const loadEvent = _ => {
+    storePackageSchema();
+    displayForm();
+    changeForm();
+};
+
+window.addEventListener("load", loadEvent);
+
+
+
+
+
+const createDependencyOptions = (data) => {
+
+    data.map((el) => {
+        console.log(el);
+
+        let dependencyListEl = document.createElement("option");
+        dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
+        datalistEl.appendChild(dependencyListEl);
+
+        // if(currValue === `${el.name} (versionnn ${el.version})`){
+        //     addedDependencyContent(el.name, el.version);
+        // }
+    });
+}
+
 const addedDependencyContent = (name, version) => {
 
         addedDependencyEl = `
@@ -195,10 +213,3 @@ const addedDependencyContent = (name, version) => {
             <div class="dependencySubItem">${version}</div>
         </div>`
 }
-
-const loadEvent = _ => {
-    displayForm();
-    changeForm();
-};
-
-window.addEventListener("load", loadEvent);
