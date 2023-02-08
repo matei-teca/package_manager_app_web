@@ -22,7 +22,7 @@ app.use('/public', express.static(`${__dirname}/../frontend/public`));
 
 app.get("/api/package/", async (req, res) => {
   const fileData = JSON.parse(await fileReaderAsync(filePath));
-  res.send(JSON.stringify(fileData.packages.map((item) => {return `${item.name} (version ${item.releases[0].version})`})));
+  res.send(JSON.stringify(fileData.packages.map((item) => {return {name: item.name, version: item.releases[0].version}})));
 })
 
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));

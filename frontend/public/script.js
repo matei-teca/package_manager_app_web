@@ -2,6 +2,8 @@ let rootEl;
 let packageSchema;
 let datalistEl;
 let getFlag = true;
+let addedDependencyEl;
+let currValue;
 
 const formStructure = () => {
     return `
@@ -123,7 +125,7 @@ const changeForm = () => {
     })
 
     dependencySearchInputEl.addEventListener("input", (e) => {
-        let currValue = e.target.value;
+        currValue = e.target.value;
         if(currValue.length > 2 && getFlag){
 
             getDependencies();
@@ -158,8 +160,12 @@ const dependenciesInput = (data) => {
         console.log(el);
 
         let dependencyListEl = document.createElement("option");
-        dependencyListEl.value = el;
+        dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
         datalistEl.appendChild(dependencyListEl);
+
+        if(currValue === `${el.name} (versionnn ${el.version})`){
+            addedDependencyContent(el.name, el.version);
+        }
     });
 }
 
@@ -171,20 +177,23 @@ const datalistListEvent = (currValue) => {
       if(options[i].value === currValue) {
         alert('item selected: ' + currValue);
 
-        let addedOptionEl = `
-        <div class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">Enzyme</div>
-            <div class="dependencySubItem">5.12.0</div>
-        </div>`
-
-        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedOptionEl)
+        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl)
 
         break;
       }
     }
 
     // options.map((el, i) => {console.log(options[i])})
+}
+
+const addedDependencyContent = (name, version) => {
+
+        addedDependencyEl = `
+        <div class="dependencyItem">
+            <div class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">${name}</div>
+            <div class="dependencySubItem">${version}</div>
+        </div>`
 }
 
 const loadEvent = _ => {
