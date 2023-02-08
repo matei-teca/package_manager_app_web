@@ -18,16 +18,16 @@ const formStructure = () => {
         <div class="title"> PACKAGE DEPENDENCIES </div>
 
         <div id="dependencyItemsContainer">
-        <div  class="dependencyItem">
-            <div id="dependencyC_bttn" class="dependencySubItem dependencyItemBttn">x</div>
-            <div id="dependencyC_name" class="dependencySubItem">Enzyme</div>
-            <div id="dependencyC_version" class="dependencySubItem">5.12.0</div>
+        <div class="dependencyItem">
+            <div class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">Enzyme</div>
+            <div class="dependencySubItem">5.12.0</div>
         </div>
 
-        <div id="dependencyB" class="dependencyItem">
-            <div id="dependencyB_bttn" class="dependencySubItem dependencyItemBttn">x</div>
-            <div id="dependencyB_name" class="dependencySubItem">Enzyme</div>
-            <div id="dependencyB_version" class="dependencySubItem">5.12.0</div>
+        <div class="dependencyItem">
+            <div class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">Enzyme</div>
+            <div class="dependencySubItem">5.12.0</div>
         </div>
 
         <div id="dependencyA" class="dependencyItem">
@@ -171,8 +171,14 @@ const datalistListEvent = (currValue) => {
       if(options[i].value === currValue) {
         alert('item selected: ' + currValue);
 
-        let addedOptionEl = ``
-        dependencyItemsContainerEl.appendChild
+        let addedOptionEl = `
+        <div class="dependencyItem">
+            <div class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">Enzyme</div>
+            <div class="dependencySubItem">5.12.0</div>
+        </div>`
+
+        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedOptionEl)
 
         break;
       }

@@ -78,6 +78,11 @@ body {
     height: 15%;
 } */
 
+#dependencyItemsContainer{
+    max-height: 100px;
+    overflow: scroll;
+}
+
 .dependencyItem{
     /* background-color: green; */
     display: flex;
