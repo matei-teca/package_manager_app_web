@@ -17,7 +17,8 @@ const formStructure = () => {
     <div id = "pckgDependenciesCont" class="section"> 
         <div class="title"> PACKAGE DEPENDENCIES </div>
 
-        <div id="dependencyC" class="dependencyItem">
+        <div id="dependencyItemsContainer">
+        <div  class="dependencyItem">
             <div id="dependencyC_bttn" class="dependencySubItem dependencyItemBttn">x</div>
             <div id="dependencyC_name" class="dependencySubItem">Enzyme</div>
             <div id="dependencyC_version" class="dependencySubItem">5.12.0</div>
@@ -34,7 +35,7 @@ const formStructure = () => {
             <div id="dependencyA_name" class="dependencySubItem">Enzyme</div>
             <div id="dependencyA_version" class="dependencySubItem">5.12.0</div>
         </div>
-
+        </div>
        
         <input list="dependenciesListVisible" id="dependencySearchInput" type="text" placeholder="dependency search">
 
@@ -121,21 +122,6 @@ const changeForm = () => {
         console.log(packageSchema);
     })
 
-    // dependencySearchInputEl.addEventListener("input", (e) => {
-    //     let currValue = e.target.value;
-    //     datalistEl = document.getElementById("dependenciesList");
-
-    //     if(currValue.length > 2){
-    //         console.log("works");
-    //         // datalistEl.id = "dependenciesListVisible";
-    //         getFlag = true;
-    //     } 
-        
-    //     // if (currValue.length <= 2){
-    //     //     datalistEl.id = "dependenciesList";
-    //     // }
-    // })
-
     dependencySearchInputEl.addEventListener("input", (e) => {
         let currValue = e.target.value;
         if(currValue.length > 2 && getFlag){
@@ -150,9 +136,13 @@ const changeForm = () => {
             datalistEl.id = "dependenciesListHidden"
         }
 
+        // console.log(currValue);
+        
+        datalistListEvent(currValue);
 
     })
 }
+
 
 const getDependencies = () => {
 
@@ -171,6 +161,24 @@ const dependenciesInput = (data) => {
         dependencyListEl.value = el;
         datalistEl.appendChild(dependencyListEl);
     });
+}
+
+const datalistListEvent = (currValue) => {
+    let options = datalistEl.childNodes;
+    let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
+
+    for(var i = 0; i < options.length; i++) {
+      if(options[i].value === currValue) {
+        alert('item selected: ' + currValue);
+
+        let addedOptionEl = ``
+        dependencyItemsContainerEl.appendChild
+
+        break;
+      }
+    }
+
+    // options.map((el, i) => {console.log(options[i])})
 }
 
 const loadEvent = _ => {
