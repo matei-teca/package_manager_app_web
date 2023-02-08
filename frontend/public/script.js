@@ -1,5 +1,7 @@
 let rootEl;
 let packageSchema;
+let datalistEl;
+let getFlag = true;
 
 const formStructure = () => {
     return `
@@ -34,7 +36,8 @@ const formStructure = () => {
         </div>
 
        
-        <input id="dependencySearchInput" type="text" placeholder="dependency search">
+        <input list="dependenciesListVisible" id="dependencySearchInput" type="text" placeholder="dependency search">
+
 
     </div>
 
@@ -69,14 +72,25 @@ const formStructure = () => {
     `
 }
 
+const createDataList = () => {
+    const parentEl = document.getElementById("pckgDependenciesCont");
+    datalistEl = document.createElement("datalist");
+    datalistEl.id = "dependenciesListVisible"
+
+    parentEl.appendChild(datalistEl);
+}
+
 const displayForm = () => {
     rootEl = document.getElementById("root");
     rootEl.insertAdjacentHTML("beforeend", formStructure());
+
+    createDataList();
 }
 
 const changeForm = () => {
     const nameInputEl = document.getElementById("nameInput");
     const detailsInputEl = document.getElementById("detailsInput");
+    const dependencySearchInputEl = document.getElementById("dependencySearchInput");
 
     packageSchema = {
         "id": 1,
@@ -101,13 +115,62 @@ const changeForm = () => {
         console.log(packageSchema);
     })
     
-    detailsInput.addEventListener("input", (e) => {
+    detailsInputEl.addEventListener("input", (e) => {
         packageSchema.description = e.target.value;
 
         console.log(packageSchema);
     })
-    
 
+    // dependencySearchInputEl.addEventListener("input", (e) => {
+    //     let currValue = e.target.value;
+    //     datalistEl = document.getElementById("dependenciesList");
+
+    //     if(currValue.length > 2){
+    //         console.log("works");
+    //         // datalistEl.id = "dependenciesListVisible";
+    //         getFlag = true;
+    //     } 
+        
+    //     // if (currValue.length <= 2){
+    //     //     datalistEl.id = "dependenciesList";
+    //     // }
+    // })
+
+    dependencySearchInputEl.addEventListener("input", (e) => {
+        let currValue = e.target.value;
+        if(currValue.length > 2 && getFlag){
+
+            getDependencies();
+            getFlag = false;
+        }
+
+        if(currValue.length > 2){
+            datalistEl.id = "dependenciesListVisible";
+        } else {
+            datalistEl.id = "dependenciesListHidden"
+        }
+
+
+    })
+}
+
+const getDependencies = () => {
+
+    fetch("/api/package/")
+    .then(res => res.json())
+    .then(data => dependenciesInput(data));
+
+}
+
+const dependenciesInput = (data) => {
+
+    data.map((el) => {
+        console.log(el);
+
+        let dependencyListEl = document.createElement("option");
+        dependencyListEl.value = el;
+        datalistEl.appendChild(dependencyListEl);
+    });
 }
 
 const loadEvent = _ => {

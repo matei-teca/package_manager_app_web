@@ -2,7 +2,9 @@ const express = require("express");
 const fs = require("fs");
 const dataRoute = "./pkgs.json";
 const path = require("path");
+const fileReaderAsync = require("./fileReader");
 
+const filePath = path.join(`${__dirname}/pkgs.json`);
 const app = express();
 
 app.use(express.json());
@@ -18,5 +20,9 @@ app.get(["/edit/package","/edit/package/:id"], (req, res, next) => {
 });
 app.use('/public', express.static(`${__dirname}/../frontend/public`));
 
+app.get("/api/package/", async (req, res) => {
+  const fileData = JSON.parse(await fileReaderAsync(filePath));
+  res.send(JSON.stringify(fileData.packages.map((item) => {return item.name})));
+})
 
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));
