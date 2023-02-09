@@ -7,6 +7,7 @@ let currValue;
 let fetchedData;
 let currOptionIndex;
 let dataToDisplay;
+let dataToDisplayB;
 
 const formStructure = () => {
     return `
@@ -102,11 +103,9 @@ const getData = (useData1) => {
 //useData1()
 const createDependencyOptions = () => {
 
-    console.log(fetchedData);
-    dataToDisplay = fetchedData.packages.map((item) => {return {name: item.name, version: item.releases[0].version}});
+    dataToDisplay = fetchedData.packages.map((item) => {return {name: item.name, version: item.releases[0].version, id: item.id}});
 
     dataToDisplay.map((el) => {
-        console.log(el);
 
         let dependencyListEl = document.createElement("option");
         dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
@@ -143,14 +142,10 @@ const changeForm = () => {
 
     nameInputEl.addEventListener("input", (e) => {
         packageSchema.name = e.target.value;
-
-        console.log(packageSchema);
     })
     
     detailsInputEl.addEventListener("input", (e) => {
         packageSchema.description = e.target.value;
-
-        console.log(packageSchema);
     })
 
     dependencySearchInputEl.addEventListener("input", (e) => {
@@ -176,24 +171,39 @@ const changeForm = () => {
 const datalistListEvent = () => {
     let options = datalistEl.childNodes;
 
-    for(var i = 0; i < options.length; i++) {
-      if(options[i].value === currValue) {
-        // alert('item selected: ' + currValue);
+    // for(var i = 0; i < options.length; i++) {
+    //   if(options[i].value === currValue) {
+    //     // alert('item selected: ' + currValue);
 
-        currOptionIndex = i;
-        displaySelectedDependency();
+    //     currOptionIndex = i;
+    //     displaySelectedDependency();
+    //     updatePackageDependencies();
+    //     console.log(packageSchema);
 
-        break;
-      }
-    }
+    //     break;
+    //   }
+    // }
 
+    // console.log(options)
     // options.map((el, i) => {console.log(options[i])})
+
+    Array.prototype.map.call(options, (el, i) => {
+        if(options[i].value === currValue) {
+                // alert('item selected: ' + currValue);
+        
+                currOptionIndex = i;
+                displaySelectedDependency();
+                updatePackageDependencies();
+                console.log(packageSchema);
+                
+        return;
+        }
+    })
 }
 const displaySelectedDependency = (el) => {
         let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
         
-        let dataToDisplayB = dataToDisplay[currOptionIndex];
-        console.log(dataToDisplayB);
+        dataToDisplayB = dataToDisplay[currOptionIndex];
 
         addedDependencyEl = `
         <div class="dependencyItem">
@@ -204,6 +214,10 @@ const displaySelectedDependency = (el) => {
 
         dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
 
+}
+
+const updatePackageDependencies = () => {
+    packageSchema.dependencies.push(dataToDisplayB.id)
 }
 
 // Inserting ALL created html elements into rootDiv of index.html
