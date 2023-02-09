@@ -48,9 +48,10 @@ const formStructure = () => {
 
     </div>
 
-    <div class="section"> 
+    <div id="pckgVersionsCont" class="section"> 
         <div class="title"> PACKAGE VERSIONS </div>
 
+        <div id="versionItemsContainer">
         <div id="versionB" class="versionItem">
             <div class="versionSubItem versionItemBttn">x</div>
             <div class="versionSubItem">1.18.2</div>
@@ -59,14 +60,14 @@ const formStructure = () => {
 
         <div id="versionA" class="versionItem">
             <div class="versionSubItem versionItemBttn">x</div>
-            <div class="versionSubItem">1.18.3</div>
-            <div class="versionSubItem">2022-03-01</div>
+            <div class="versionSubItem" contenteditable="true">1.18.3</div>
+            <div class="versionSubItem" contenteditable="true">2022-03-01</div>
         </div>
-
+        </div>
         <div id="addNewVersion" class="versionItem">
-            <div id="addNewVersionBttn" class="versionSubItem versionItemBttn">+</div>
-            <div class="versionSubItem">ADD NEW VERSION</div>
-        </div>
+        <div id="addVersionBttn" class="versionSubItem versionItemBttn">+</div>
+        <div class="versionSubItem">ADD NEW VERSION</div>
+    </div>
     </div>
 
     <div class="section">
@@ -86,6 +87,18 @@ const createDataList = () => {
     datalistEl.id = "dependenciesListVisible";
 
     parentEl.appendChild(datalistEl);
+}
+
+const displayVersionEditor = () => {
+    let versionEditorJSX = `
+    <div id = "versionEditorContainer" class="section"> 
+        <div class="versionSubItem">ADD NEW VERSION</div>
+        <input id="versionInput" type="text" placeholder="version">
+        <input id="versionDateInput" type="text" placeholder="date">
+        <button id="addCurrVersionBttn">Add</button>
+    </div>
+    `
+    rootEl.insertAdjacentHTML("beforeend", versionEditorJSX);
 }
 
 // Fetching the items from pkgs.json via server.js
@@ -256,12 +269,48 @@ const deleteSelectedDependency = () => {
 }
 
 const addVersionEditor = () => {
-    let addVersionBttnEl = document.getElementById("addNewVersionBttn");
+    let addVersionBttnEl = document.getElementById("addVersionBttn");
     let isAside = false;
+    const addCurrVersionBttnEl = document.getElementById("addCurrVersionBttn");
+    const versionInputEl = document.getElementById("versionInput");
+    const dateInputEl = document.getElementById("versionDateInput");
+    let newVersionValue;
+    let newDateValue;
+    let newVersionId = 0;
+  
 
-    // let versionEditorJSX = `
-    
-    // `
+    const getInputValues = () => {
+        newVersionValue = versionInputEl.value;
+        newDateValue = dateInputEl.value;
+    }
+
+    const displayNewVersion = () => {
+        const versionItemsContainerEl = document.getElementById("versionItemsContainer");
+
+        let versionJSX = `
+        <div id="versionId${newVersionId}" class="versionItem">
+            <div class="versionSubItem versionItemBttn">x</div>
+            <div class="versionSubItem" contenteditable="true">${newVersionValue}</div>
+            <div class="versionSubItem" contenteditable="true">${newDateValue}</div>
+        </div>
+        `
+
+        versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+    }
+
+    const updatePackageReleasesAKAVersions = () => {
+        packageSchema.releases.push({"date": newDateValue, "version": newVersionValue})
+    }
+
+    addCurrVersionBttnEl.addEventListener("click", function(){
+        getInputValues();
+        displayNewVersion();
+        updatePackageReleasesAKAVersions();
+        newVersionId++;
+
+        console.log(packageSchema);
+    })
+
 
     addVersionBttnEl.addEventListener("click", function(){
         isAside ? 
@@ -287,6 +336,7 @@ const displayForm = () => {
 const loadEvent = _ => {
     storePackageSchema();
     displayForm();
+    displayVersionEditor();
     detailsEditor();
     dependencyEditor();
     addVersionEditor();
