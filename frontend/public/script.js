@@ -88,15 +88,31 @@ const createDataList = () => {
 }
 
 // Fetching the items from pkgs.json via server.js
-const getData = () => {
+const getData = (useData1) => {
 
     fetch("/api/package/")
     .then(res => res.json())
     .then(data => {
         fetchedData = data;
-        createDependencyOptions(); 
+        useData1(); 
     });
 
+}
+
+//useData1()
+const createDependencyOptions = () => {
+
+    console.log(fetchedData);
+    dataToDisplay = fetchedData.packages.map((item) => {return {name: item.name, version: item.releases[0].version}});
+
+    dataToDisplay.map((el) => {
+        console.log(el);
+
+        let dependencyListEl = document.createElement("option");
+        dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
+        datalistEl.appendChild(dependencyListEl);
+
+    });
 }
 
 //Store the (package schema) object in a global variable
@@ -141,7 +157,7 @@ const changeForm = () => {
         currValue = e.target.value;
         if(currValue.length > 2 && getFlag){
 
-            getData();
+            getData(createDependencyOptions);
             getFlag = false;
         }
 
@@ -173,6 +189,22 @@ const datalistListEvent = (currValue) => {
 
     // options.map((el, i) => {console.log(options[i])})
 }
+const addedDependencyContent = (el) => {
+        let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
+        
+        let dataToDisplayB = dataToDisplay[currOptionIndex];
+        console.log(dataToDisplayB);
+
+        addedDependencyEl = `
+        <div class="dependencyItem">
+            <div class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">${dataToDisplayB.name}</div>
+            <div class="dependencySubItem">${dataToDisplayB.version}</div>
+        </div>`;
+
+        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
+
+}
 
 // Inserting ALL created html elements into rootDiv of index.html
 const displayForm = () => {
@@ -193,34 +225,5 @@ window.addEventListener("load", loadEvent);
 
 
 
-const createDependencyOptions = (data) => {
 
-    console.log(fetchedData);
-    dataToDisplay = fetchedData.packages.map((item) => {return {name: item.name, version: item.releases[0].version}});
 
-    dataToDisplay.map((el) => {
-        console.log(el);
-
-        let dependencyListEl = document.createElement("option");
-        dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
-        datalistEl.appendChild(dependencyListEl);
-
-    });
-}
-
-const addedDependencyContent = (el) => {
-        let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
-        
-        let dataToDisplayB = dataToDisplay[currOptionIndex];
-        console.log(dataToDisplayB);
-
-        addedDependencyEl = `
-        <div class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">${dataToDisplayB.name}</div>
-            <div class="dependencySubItem">${dataToDisplayB.version}</div>
-        </div>`;
-
-        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
-
-}
