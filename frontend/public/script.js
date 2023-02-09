@@ -159,7 +159,7 @@ const datalistListEvent = (currValue) => {
       if(options[i].value === currValue) {
         alert('item selected: ' + currValue);
 
-        createDependencyOptions();
+        addedDependencyContent();
 
         break;
       }
@@ -196,27 +196,22 @@ const createDependencyOptions = (data) => {
         dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
         datalistEl.appendChild(dependencyListEl);
 
-        console.log("works2");
-
-        // if(currValue === `${el.name} (versionnn ${el.version})`){
-        //     addedDependencyContent(el.name, el.version);
-        // }
-
-        if(currValue === dependencyListEl.value){
-            addedDependencyContent(el);
-            console.log("works1");
-        }
     });
 }
 
 const addedDependencyContent = (el) => {
         let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
+        let dependencySearchInputEl = document.getElementById("dependencySearchInput");
+
+        let inputValue = dependencySearchInputEl.value.split(" (versionnn ");
+
+        console.log(inputValue);
 
         addedDependencyEl = `
         <div class="dependencyItem">
             <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">${el.name}</div>
-            <div class="dependencySubItem">${el.version}</div>
+            <div class="dependencySubItem">${inputValue[0]}</div>
+            <div class="dependencySubItem">${inputValue[1].slice(0, inputValue[1].length-1)}</div>
         </div>`;
 
         dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
