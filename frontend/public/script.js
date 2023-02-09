@@ -256,6 +256,55 @@ const deleteSelectedDependency = () => {
 
 }
 
+// Add Version part
+
+const addVersionEditor = () => {
+    let addVersionBttnEl = document.getElementById("addVersionBttn");
+    let newVersionValue;
+    let newDateValue;
+    let newVersionId = 0;
+
+    addVersionBttnEl.addEventListener("click", function(){
+        getLatestVersion();
+        updatePackageReleasesAKAVersions();
+        displayNewVersion();
+        newVersionId++;
+
+        console.log(packageSchema)
+    })
+
+    const displayNewVersion = () => {
+        const versionItemsContainerEl = document.getElementById("versionItemsContainer");
+
+        let versionJSX = `
+        <div id="versionId${newVersionId}" class="versionItem">
+            <div class="versionSubItem versionItemBttn">x</div>
+            <div class="versionSubItem" contenteditable="true">${newVersionValue}</div>
+            <div class="versionSubItem" contenteditable="true">${newDateValue}</div>
+        </div>
+        `
+
+        versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+    }
+
+    const getLatestVersion = () => {
+        newVersionValue = packageSchema.releases[0].version.split(".");
+        newVersionValue[newVersionValue.length-1] = parseInt(newVersionValue[newVersionValue.length-1]);
+        newVersionValue[newVersionValue.length-1] += 1;
+        newVersionValue = newVersionValue.join(".");
+
+        newDateValue = new Date();
+        newDateValue = newDateValue.toISOString().substring(0, 10);
+    }
+
+    const updatePackageReleasesAKAVersions = () => {
+        packageSchema.releases.unshift({"date": newDateValue, "version": newVersionValue})
+
+
+    }
+    
+}
+
 // Inserting ALL created html elements into rootDiv of index.html
 const displayForm = () => {
 
@@ -273,6 +322,7 @@ const loadEvent = _ => {
     displayForm();
     detailsEditor();
     dependencyEditor();
+    addVersionEditor();
     
     // displayVersionEditorExtra();
     // addVersionEditorExtra();
