@@ -173,7 +173,7 @@ const changeForm = () => {
 
     })
 }
-const datalistListEvent = (currValue) => {
+const datalistListEvent = () => {
     let options = datalistEl.childNodes;
 
     for(var i = 0; i < options.length; i++) {
@@ -181,7 +181,7 @@ const datalistListEvent = (currValue) => {
         // alert('item selected: ' + currValue);
 
         currOptionIndex = i;
-        addedDependencyContent();
+        displaySelectedDependency();
 
         break;
       }
@@ -189,7 +189,7 @@ const datalistListEvent = (currValue) => {
 
     // options.map((el, i) => {console.log(options[i])})
 }
-const addedDependencyContent = (el) => {
+const displaySelectedDependency = (el) => {
         let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
         
         let dataToDisplayB = dataToDisplay[currOptionIndex];
