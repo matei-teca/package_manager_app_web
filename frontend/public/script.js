@@ -6,6 +6,7 @@ let addedDependencyEl;
 let currValue;
 let fetchedData;
 let currOptionIndex;
+let dataToDisplay;
 
 const formStructure = () => {
     return `
@@ -87,11 +88,14 @@ const createDataList = () => {
 }
 
 // Fetching the items from pkgs.json via server.js
-const getDependencies = () => {
+const getData = () => {
 
     fetch("/api/package/")
     .then(res => res.json())
-    .then(data => {createDependencyOptions(data); fetchedData = data});
+    .then(data => {
+        fetchedData = data;
+        createDependencyOptions(); 
+    });
 
 }
 
@@ -137,7 +141,7 @@ const changeForm = () => {
         currValue = e.target.value;
         if(currValue.length > 2 && getFlag){
 
-            getDependencies();
+            getData();
             getFlag = false;
         }
 
@@ -191,7 +195,10 @@ window.addEventListener("load", loadEvent);
 
 const createDependencyOptions = (data) => {
 
-    data.map((el) => {
+    console.log(fetchedData);
+    dataToDisplay = fetchedData.packages.map((item) => {return {name: item.name, version: item.releases[0].version}});
+
+    dataToDisplay.map((el) => {
         console.log(el);
 
         let dependencyListEl = document.createElement("option");
@@ -203,14 +210,15 @@ const createDependencyOptions = (data) => {
 
 const addedDependencyContent = (el) => {
         let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
-
-        let dataToDisplay = fetchedData[currOptionIndex];
+        
+        let dataToDisplayB = dataToDisplay[currOptionIndex];
+        console.log(dataToDisplayB);
 
         addedDependencyEl = `
         <div class="dependencyItem">
             <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">${dataToDisplay.name}</div>
-            <div class="dependencySubItem">${dataToDisplay.version}works</div>
+            <div class="dependencySubItem">${dataToDisplayB.name}</div>
+            <div class="dependencySubItem">${dataToDisplayB.version}</div>
         </div>`;
 
         dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
