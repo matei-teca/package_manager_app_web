@@ -4,6 +4,7 @@ let datalistEl;
 let getFlag = true;
 let addedDependencyEl;
 let currValue;
+let fetchedData;
 
 const formStructure = () => {
     return `
@@ -79,7 +80,7 @@ const formStructure = () => {
 const createDataList = () => {
     const parentEl = document.getElementById("pckgDependenciesCont");
     datalistEl = document.createElement("datalist");
-    datalistEl.id = "dependenciesListVisible"
+    datalistEl.id = "dependenciesListVisible";
 
     parentEl.appendChild(datalistEl);
 }
@@ -89,7 +90,7 @@ const getDependencies = () => {
 
     fetch("/api/package/")
     .then(res => res.json())
-    .then(data => createDependencyOptions(data));
+    .then(data => {createDependencyOptions(data); fetchedData = data});
 
 }
 
@@ -153,13 +154,12 @@ const changeForm = () => {
 }
 const datalistListEvent = (currValue) => {
     let options = datalistEl.childNodes;
-    let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
 
     for(var i = 0; i < options.length; i++) {
       if(options[i].value === currValue) {
         alert('item selected: ' + currValue);
 
-        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl)
+        createDependencyOptions();
 
         break;
       }
@@ -187,8 +187,6 @@ window.addEventListener("load", loadEvent);
 
 
 
-
-
 const createDependencyOptions = (data) => {
 
     data.map((el) => {
@@ -198,18 +196,29 @@ const createDependencyOptions = (data) => {
         dependencyListEl.value = `${el.name} (versionnn ${el.version})`;
         datalistEl.appendChild(dependencyListEl);
 
+        console.log("works2");
+
         // if(currValue === `${el.name} (versionnn ${el.version})`){
         //     addedDependencyContent(el.name, el.version);
         // }
+
+        if(currValue === dependencyListEl.value){
+            addedDependencyContent(el);
+            console.log("works1");
+        }
     });
 }
 
-const addedDependencyContent = (name, version) => {
+const addedDependencyContent = (el) => {
+        let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
 
         addedDependencyEl = `
         <div class="dependencyItem">
             <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">${name}</div>
-            <div class="dependencySubItem">${version}</div>
-        </div>`
+            <div class="dependencySubItem">${el.name}</div>
+            <div class="dependencySubItem">${el.version}</div>
+        </div>`;
+
+        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
+
 }
