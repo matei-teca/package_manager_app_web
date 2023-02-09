@@ -214,15 +214,10 @@ const deleteSelectedDependency = () => {
 
     let dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
     let dependencyItems = document.querySelectorAll(".dependencyItem");
-
-    // console.log(dependencyBttns);
     
     Array.prototype.map.call(dependencyBttns, (bttn) => {
 
-        // console.log(bttn);
         bttn.addEventListener("click", function(){
-
-            // console.log("works");
             
             Array.prototype.map.call(dependencyItems, (item) => {
 
@@ -243,12 +238,10 @@ const deleteSelectedDependency = () => {
                     console.log(packageSchema);
                 }
 
-
             })
         })
 
     })
-
 
 }
 
