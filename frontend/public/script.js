@@ -255,10 +255,30 @@ const deleteSelectedDependency = () => {
 
 }
 
+const addVersionEditor = () => {
+    let addVersionBttnEl = document.getElementById("addNewVersionBttn");
+    let isAside = false;
+
+    // let versionEditorJSX = `
+    
+    // `
+
+    addVersionBttnEl.addEventListener("click", function(){
+        isAside ? 
+        rootEl.className = "rootCentered":
+        rootEl.className = "rootAside" 
+
+        isAside = !isAside;
+    })
+}
+
 // Inserting ALL created html elements into rootDiv of index.html
 const displayForm = () => {
+
     rootEl = document.getElementById("root");
+
     rootEl.insertAdjacentHTML("beforeend", formStructure());
+    rootEl.className = "rootCentered";
 
     createDataList();
 }
@@ -269,6 +289,7 @@ const loadEvent = _ => {
     displayForm();
     detailsEditor();
     dependencyEditor();
+    addVersionEditor();
 };
 
 window.addEventListener("load", loadEvent);

@@ -12,9 +12,6 @@
 
 body {
     background-color: aqua;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-image: url("https://wallpaperset.com/w/full/c/3/c/227416.jpg");
     background-size:cover;
 }
@@ -24,11 +21,31 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.rootInitial {
+    width: 10vw;
+    height: 10vh;
+    margin-top: 90vh;
+    margin-left: 10vw;
+    transition: 1s
+
+}
+
+.rootCentered{
     width: 70vw;
     height: 90vh;
     margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-left: 15vw;
+    transition: 1s
+}
 
+.rootAside {
+    width: 70vw;
+    height: 90vh;
+    margin-top: 5vh;
+    margin-left: 50vw;
+    transition: 1s 
 }
 
 #formContainer{
@@ -40,6 +57,8 @@ body {
     font-family: 'Courier New', Courier, monospace;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
 }
+
+
 
 .title {
     font-size: 14px;
