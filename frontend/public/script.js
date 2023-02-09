@@ -135,10 +135,9 @@ const storePackageSchema = () => {
 }
 
 // Form events 
-const changeForm = () => {
+const detailsEditor = () => {
     const nameInputEl = document.getElementById("nameInput");
     const detailsInputEl = document.getElementById("detailsInput");
-    const dependencySearchInputEl = document.getElementById("dependencySearchInput");
 
     nameInputEl.addEventListener("input", (e) => {
         packageSchema.name = e.target.value;
@@ -147,6 +146,11 @@ const changeForm = () => {
     detailsInputEl.addEventListener("input", (e) => {
         packageSchema.description = e.target.value;
     })
+}
+
+const dependencyEditor = () => {
+
+    const dependencySearchInputEl = document.getElementById("dependencySearchInput");
 
     dependencySearchInputEl.addEventListener("input", (e) => {
         currValue = e.target.value;
@@ -162,16 +166,14 @@ const changeForm = () => {
             datalistEl.id = "dependenciesListHidden"
         }
 
-        // console.log(currValue);
-        
         datalistListEvent(currValue);
-
     })
 
     deleteSelectedDependency();
 }
 const datalistListEvent = () => {
     let options = datalistEl.childNodes;
+    const dependencySearchInputEl = document.getElementById("dependencySearchInput");
 
     Array.prototype.map.call(options, (el, i) => {
         if(options[i].value === currValue) {
@@ -184,9 +186,12 @@ const datalistListEvent = () => {
 
                 console.log(packageSchema);
 
+                dependencySearchInputEl.value = "";
+
         return;
         }
     })
+    
 }
 const displaySelectedDependency = (el) => {
         let dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
@@ -201,8 +206,9 @@ const displaySelectedDependency = (el) => {
         </div>`;
 
         dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
-        // dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
-        // dependencyItems = document.querySelectorAll(".dependencyItem");
+        
+        let currDependency = document.getElementById(`dependecyId${dataToDisplayB.id}`)
+        currDependency.scrollIntoView();
 
 }
 
@@ -211,6 +217,9 @@ const updatePackageDependencies = () => {
 }
 
 const deleteSelectedDependency = () => {
+    //if time => todo: 
+    // bug when adding the same dependency multiple times, 
+    // cannot delete && doesn't add to object
 
     let dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
     let dependencyItems = document.querySelectorAll(".dependencyItem");
@@ -226,6 +235,7 @@ const deleteSelectedDependency = () => {
                     //removes the package visually
                     let itemEl = document.getElementById(item.id);
                     itemEl.style.display = "none";
+                    // itemEl.style.backgroundColor = "red";
 
                     //removes the package from the dependency object
                     let dependencyId = item.id.split("dependecyId")[1];
@@ -257,7 +267,8 @@ const displayForm = () => {
 const loadEvent = _ => {
     storePackageSchema();
     displayForm();
-    changeForm();
+    detailsEditor();
+    dependencyEditor();
 };
 
 window.addEventListener("load", loadEvent);
