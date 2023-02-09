@@ -89,18 +89,6 @@ const createDataList = () => {
     parentEl.appendChild(datalistEl);
 }
 
-const displayVersionEditor = () => {
-    let versionEditorJSX = `
-    <div id = "versionEditorContainer" class="section"> 
-        <div class="versionSubItem">ADD NEW VERSION</div>
-        <input id="versionInput" type="text" placeholder="version">
-        <input id="versionDateInput" type="text" placeholder="date">
-        <button id="addCurrVersionBttn">Add</button>
-    </div>
-    `
-    rootEl.insertAdjacentHTML("beforeend", versionEditorJSX);
-}
-
 // Fetching the items from pkgs.json via server.js
 const getData = (useData1) => {
 
@@ -268,59 +256,6 @@ const deleteSelectedDependency = () => {
 
 }
 
-const addVersionEditor = () => {
-    let addVersionBttnEl = document.getElementById("addVersionBttn");
-    let isAside = false;
-    const addCurrVersionBttnEl = document.getElementById("addCurrVersionBttn");
-    const versionInputEl = document.getElementById("versionInput");
-    const dateInputEl = document.getElementById("versionDateInput");
-    let newVersionValue;
-    let newDateValue;
-    let newVersionId = 0;
-  
-
-    const getInputValues = () => {
-        newVersionValue = versionInputEl.value;
-        newDateValue = dateInputEl.value;
-    }
-
-    const displayNewVersion = () => {
-        const versionItemsContainerEl = document.getElementById("versionItemsContainer");
-
-        let versionJSX = `
-        <div id="versionId${newVersionId}" class="versionItem">
-            <div class="versionSubItem versionItemBttn">x</div>
-            <div class="versionSubItem" contenteditable="true">${newVersionValue}</div>
-            <div class="versionSubItem" contenteditable="true">${newDateValue}</div>
-        </div>
-        `
-
-        versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
-    }
-
-    const updatePackageReleasesAKAVersions = () => {
-        packageSchema.releases.push({"date": newDateValue, "version": newVersionValue})
-    }
-
-    addCurrVersionBttnEl.addEventListener("click", function(){
-        getInputValues();
-        displayNewVersion();
-        updatePackageReleasesAKAVersions();
-        newVersionId++;
-
-        console.log(packageSchema);
-    })
-
-
-    addVersionBttnEl.addEventListener("click", function(){
-        isAside ? 
-        rootEl.className = "rootCentered":
-        rootEl.className = "rootAside" 
-
-        isAside = !isAside;
-    })
-}
-
 // Inserting ALL created html elements into rootDiv of index.html
 const displayForm = () => {
 
@@ -336,15 +271,81 @@ const displayForm = () => {
 const loadEvent = _ => {
     storePackageSchema();
     displayForm();
-    displayVersionEditor();
     detailsEditor();
     dependencyEditor();
-    addVersionEditor();
+    
+    // displayVersionEditorExtra();
+    // addVersionEditorExtra();
 };
 
 window.addEventListener("load", loadEvent);
 
 
 
+// Extra Feature
 
+// const addVersionEditorExtra = () => {
+//     let addVersionBttnEl = document.getElementById("addVersionBttn");
+//     let isAside = false;
+//     const addCurrVersionBttnEl = document.getElementById("addCurrVersionBttn");
+//     const versionInputEl = document.getElementById("versionInput");
+//     const dateInputEl = document.getElementById("versionDateInput");
+//     let newVersionValue;
+//     let newDateValue;
+//     let newVersionId = 0;
+  
+
+//     const getInputValues = () => {
+//         newVersionValue = versionInputEl.value;
+//         newDateValue = dateInputEl.value;
+//     }
+
+//     const displayNewVersion = () => {
+//         const versionItemsContainerEl = document.getElementById("versionItemsContainer");
+
+//         let versionJSX = `
+//         <div id="versionId${newVersionId}" class="versionItem">
+//             <div class="versionSubItem versionItemBttn">x</div>
+//             <div class="versionSubItem" contenteditable="true">${newVersionValue}</div>
+//             <div class="versionSubItem" contenteditable="true">${newDateValue}</div>
+//         </div>
+//         `
+
+//         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+//     }
+
+//     const updatePackageReleasesAKAVersions = () => {
+//         packageSchema.releases.push({"date": newDateValue, "version": newVersionValue})
+//     }
+
+//     addCurrVersionBttnEl.addEventListener("click", function(){
+//         getInputValues();
+//         displayNewVersion();
+//         updatePackageReleasesAKAVersions();
+//         newVersionId++;
+
+//         console.log(packageSchema);
+//     })
+
+
+//     addVersionBttnEl.addEventListener("click", function(){
+//         isAside ? 
+//         rootEl.className = "rootCentered":
+//         rootEl.className = "rootAside" 
+
+//         isAside = !isAside;
+//     })
+// }
+
+// const displayVersionEditorExtra = () => {
+//     let versionEditorJSX = `
+//     <div id = "versionEditorContainer" class="section"> 
+//         <div class="versionSubItem">ADD NEW VERSION</div>
+//         <input id="versionInput" type="text" placeholder="version">
+//         <input id="versionDateInput" type="text" placeholder="date">
+//         <button id="addCurrVersionBttn">Add</button>
+//     </div>
+//     `
+//     rootEl.insertAdjacentHTML("beforeend", versionEditorJSX);
+// }
 
