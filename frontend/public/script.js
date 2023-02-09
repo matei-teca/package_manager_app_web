@@ -215,27 +215,41 @@ const deleteSelectedDependency = () => {
     let dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
     let dependencyItems = document.querySelectorAll(".dependencyItem");
 
-    console.log(dependencyBttns);
+    // console.log(dependencyBttns);
     
     Array.prototype.map.call(dependencyBttns, (bttn) => {
 
-        console.log(bttn);
+        // console.log(bttn);
         bttn.addEventListener("click", function(){
 
-            console.log("works");
+            // console.log("works");
             
             Array.prototype.map.call(dependencyItems, (item) => {
 
                 if(bttn.id === item.id + 'Bttn'){
 
+                    //removes the package visually
                     let itemEl = document.getElementById(item.id);
                     itemEl.style.display = "none";
 
+                    //removes the package from the dependency object
+                    let dependencyId = item.id.split("dependecyId")[1];
+                    const index = packageSchema.dependencies.indexOf(Number(dependencyId));
+
+                    if (index > -1) { // only splice array when item is found
+                        packageSchema.dependencies.splice(index, 1);
+                    }
+    
+                    console.log(packageSchema);
                 }
+
+
             })
         })
 
     })
+
+
 }
 
 // Inserting ALL created html elements into rootDiv of index.html
