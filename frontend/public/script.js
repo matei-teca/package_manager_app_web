@@ -24,22 +24,22 @@ const formStructure = () => {
         <div class="title"> PACKAGE DEPENDENCIES </div>
 
         <div id="dependencyItemsContainer">
-        <div class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
+        <div id="dependecyId-1" class="dependencyItem">
+            <div id="dependecyId-1Bttn" class="dependencySubItem dependencyItemBttn">x</div>
             <div class="dependencySubItem">Enzyme</div>
             <div class="dependencySubItem">5.12.0</div>
         </div>
 
-        <div class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
+        <div id="dependecyId-2" class="dependencyItem">
+            <div id="dependecyId-2Bttn" class="dependencySubItem dependencyItemBttn">x</div>
             <div class="dependencySubItem">Enzyme</div>
             <div class="dependencySubItem">5.12.0</div>
         </div>
 
-        <div id="dependencyA" class="dependencyItem">
-            <div id="dependencyA_bttn" class="dependencySubItem dependencyItemBttn">x</div>
-            <div id="dependencyA_name" class="dependencySubItem">Enzyme</div>
-            <div id="dependencyA_version" class="dependencySubItem">5.12.0</div>
+        <div id="dependecyId-3" class="dependencyItem">
+            <div id="dependecyId-3Bttn" class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">Enzyme</div>
+            <div class="dependencySubItem">5.12.0</div>
         </div>
         </div>
        
@@ -51,21 +51,21 @@ const formStructure = () => {
     <div class="section"> 
         <div class="title"> PACKAGE VERSIONS </div>
 
-        <div id="versionB" class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">1.18.2</div>
-            <div class="dependencySubItem">2022-03-01</div>
+        <div id="versionB" class="versionItem">
+            <div class="versionSubItem versionItemBttn">x</div>
+            <div class="versionSubItem">1.18.2</div>
+            <div class="versionSubItem">2022-03-01</div>
         </div>
 
-        <div id="versionA" class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">1.18.3</div>
-            <div class="dependencySubItem">2022-03-01</div>
+        <div id="versionA" class="versionItem">
+            <div class="versionSubItem versionItemBttn">x</div>
+            <div class="versionSubItem">1.18.3</div>
+            <div class="versionSubItem">2022-03-01</div>
         </div>
 
-        <div id="addNewVersion" class="dependencyItem">
-            <div id="addNewVersionBttn" class="dependencySubItem dependencyItemBttn">+</div>
-            <div class="dependencySubItem">ADD NEW VERSION</div>
+        <div id="addNewVersion" class="versionItem">
+            <div id="addNewVersionBttn" class="versionSubItem versionItemBttn">+</div>
+            <div class="versionSubItem">ADD NEW VERSION</div>
         </div>
     </div>
 
@@ -167,25 +167,11 @@ const changeForm = () => {
         datalistListEvent(currValue);
 
     })
+
+    deleteSelectedDependency();
 }
 const datalistListEvent = () => {
     let options = datalistEl.childNodes;
-
-    // for(var i = 0; i < options.length; i++) {
-    //   if(options[i].value === currValue) {
-    //     // alert('item selected: ' + currValue);
-
-    //     currOptionIndex = i;
-    //     displaySelectedDependency();
-    //     updatePackageDependencies();
-    //     console.log(packageSchema);
-
-    //     break;
-    //   }
-    // }
-
-    // console.log(options)
-    // options.map((el, i) => {console.log(options[i])})
 
     Array.prototype.map.call(options, (el, i) => {
         if(options[i].value === currValue) {
@@ -194,8 +180,10 @@ const datalistListEvent = () => {
                 currOptionIndex = i;
                 displaySelectedDependency();
                 updatePackageDependencies();
+                deleteSelectedDependency();
+
                 console.log(packageSchema);
-                
+
         return;
         }
     })
@@ -206,18 +194,48 @@ const displaySelectedDependency = (el) => {
         dataToDisplayB = dataToDisplay[currOptionIndex];
 
         addedDependencyEl = `
-        <div class="dependencyItem">
-            <div class="dependencySubItem dependencyItemBttn">x</div>
+        <div id="dependecyId${dataToDisplayB.id}" class="dependencyItem">
+            <div id="dependecyId${dataToDisplayB.id}Bttn" class="dependencySubItem dependencyItemBttn">x</div>
             <div class="dependencySubItem">${dataToDisplayB.name}</div>
             <div class="dependencySubItem">${dataToDisplayB.version}</div>
         </div>`;
 
         dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
+        // dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
+        // dependencyItems = document.querySelectorAll(".dependencyItem");
 
 }
 
 const updatePackageDependencies = () => {
     packageSchema.dependencies.push(dataToDisplayB.id)
+}
+
+const deleteSelectedDependency = () => {
+
+    let dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
+    let dependencyItems = document.querySelectorAll(".dependencyItem");
+
+    console.log(dependencyBttns);
+    
+    Array.prototype.map.call(dependencyBttns, (bttn) => {
+
+        console.log(bttn);
+        bttn.addEventListener("click", function(){
+
+            console.log("works");
+            
+            Array.prototype.map.call(dependencyItems, (item) => {
+
+                if(bttn.id === item.id + 'Bttn'){
+
+                    let itemEl = document.getElementById(item.id);
+                    itemEl.style.display = "none";
+
+                }
+            })
+        })
+
+    })
 }
 
 // Inserting ALL created html elements into rootDiv of index.html

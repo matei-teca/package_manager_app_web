@@ -83,7 +83,7 @@ body {
     overflow: scroll;
 }
 
-.dependencyItem{
+.dependencyItem, .versionItem{
     /* background-color: green; */
     display: flex;
     justify-content: center;
@@ -97,14 +97,14 @@ body {
 
 }
 
-.dependencySubItem{
+.dependencySubItem, .versionSubItem{
     /* background-color: pink; */
     display: inline-block;
     /* margin-inline: 18%; */
     width: 150px;
 }
 
-.dependencyItemBttn{
+.dependencyItemBttn, .versionItemBttn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -116,7 +116,7 @@ body {
     margin-bottom: 5px;
 }
 
-.dependencyItemBttn:hover{
+.dependencyItemBttn:hover, .versionItemBttn:hover{
     cursor: pointer;
     background-color: red;
     color: white;
