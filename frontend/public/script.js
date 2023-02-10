@@ -384,6 +384,7 @@ const submit = () => {
         console.log(packageSchema);
 
         fetchDataPost();
+        window.location = "http://127.0.0.1:9002/edit/package/1";
     });
 }
 

@@ -16,6 +16,7 @@ const port = 9002;
 app.get("/", (req, res) => {
   res.redirect(301, '/edit/package');
 });
+
 app.get(["/edit/package","/edit/package/:id"], (req, res, next) => {
   res.sendFile(path.join(`${__dirname}/../frontend/index.html`));
 });
@@ -35,7 +36,16 @@ app.post("/api/package/", async (req, res) => {
   fileData = JSON.stringify(fileData, null, 4);
 
   fileWriterAsync(filePath, fileData);
+
   res.send({"status" : "DONE"});
+  
+  // Response.redirect('/edit/package/https://www.example.com', 302);
+  // res.send({"status" : "DONE"}).redirect(301, '/edit/package/1');
+
 })
+
+// app.get("/edit/package", (req, res) => {
+//   res.redirect(301, '/edit/package/1');
+// });
 
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));
