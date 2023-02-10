@@ -27,7 +27,7 @@ app.get("/api/package/", async (req, res) => {
   res.send(JSON.stringify(fileData));
 })
 
-app.post("/api/package/", async (req, res) => {
+app.post("/edit/package/", async (req, res) => {
   let data = req.body;
   let fileData = JSON.parse(await fileReaderAsync(filePath));
 
@@ -47,5 +47,13 @@ app.post("/api/package/", async (req, res) => {
 // app.get("/edit/package", (req, res) => {
 //   res.redirect(301, '/edit/package/1');
 // });
+
+
+app.put("/api/package/:id", async (req, res) => {
+  let data = req.body;
+
+  let fileData = JSON.parse(await fileReaderAsync(filePath));
+  fileData.packages[req.params.id-1] = data;
+})
 
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));

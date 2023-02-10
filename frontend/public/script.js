@@ -70,6 +70,8 @@ const createDataList = () => {
 // Fetching the items from pkgs.json via server.js
 const getData = (useData1) => {
 
+    //WHY IS IT /api/package instead of /edit/package ?????
+
     fetch("/api/package/")
     .then(res => res.json())
     .then(data => {
@@ -97,7 +99,7 @@ const createDependencyOptions = () => {
 const storePackageSchema = () => {
     packageSchema = {
         "id": 1,
-        "name": "npm",
+        "name": "placeholder",
         "description": "",
         "dependencies": [],
         "releases": [
@@ -383,14 +385,30 @@ const submit = () => {
         event.preventDefault();
         console.log(packageSchema);
 
-        fetchDataPost();
-        window.location = "http://127.0.0.1:9002/edit/package/1";
+        // fetchDataPost();
+        // window.location = "http://127.0.0.1:9002/edit/package/1";
+
+        // fetchDataPut();
+
+        let windowLocation = window.location;
+
+        if(windowLocation.href.length < 36){
+            fetchDataPost();
+            window.location = "http://127.0.0.1:9002/edit/package/1";
+
+             console.log("post works");
+        } else {
+            fetchDataPut();
+            console.log("put works");
+        }
+
+        
     });
 }
 
 const fetchDataPost = () => {
 
-    fetch("/api/package/", {
+    fetch("/edit/package/", {
         method: "POST",
         headers: {
             'Content-type' : 'application/json'
@@ -406,6 +424,26 @@ const fetchDataPost = () => {
     });
 
 }
+
+const fetchDataPut = () => {
+
+    fetch("/api/package/:id", {
+        method: "PUT",
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        body: JSON.stringify(
+            packageSchema
+        )
+    })
+
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    });
+
+}
+
 
 // Inserting ALL created html elements into rootDiv of index.html
 const displayForm = () => {
