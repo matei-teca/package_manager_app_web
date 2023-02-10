@@ -24,23 +24,7 @@ const formStructure = () => {
         <div class="title"> PACKAGE DEPENDENCIES </div>
 
         <div id="dependencyItemsContainer">
-        <div id="dependecyId-1" class="dependencyItem">
-            <div id="dependecyId-1Bttn" class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">Enzyme</div>
-            <div class="dependencySubItem">5.12.0</div>
-        </div>
 
-        <div id="dependecyId-2" class="dependencyItem">
-            <div id="dependecyId-2Bttn" class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">Enzyme</div>
-            <div class="dependencySubItem">5.12.0</div>
-        </div>
-
-        <div id="dependecyId-3" class="dependencyItem">
-            <div id="dependecyId-3Bttn" class="dependencySubItem dependencyItemBttn">x</div>
-            <div class="dependencySubItem">Enzyme</div>
-            <div class="dependencySubItem">5.12.0</div>
-        </div>
         </div>
        
         <input list="dependenciesListVisible" id="dependencySearchInput" type="text" placeholder="dependency search">
@@ -73,18 +57,6 @@ const formStructure = () => {
     </div>
     `
 }
-
-{/* <div  id="versionId-2" class="versionItem">
-<div id="versionId-2Bttn" class="versionSubItem versionItemBttn">x</div>
-<div id="editableVersion-2" class="versionSubItem editableVersion" contenteditable="true">1.18.2</div>
-<div id="editableVersionDate-2" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
-</div>
-
-<div id="versionId-1" class="versionItem">
-<div id="versionId-1Bttn" class="versionSubItem versionItemBttn">x</div>
-<div id="editableVersion-1" class="versionSubItem editableVersion" contenteditable="true">1.18.3</div>
-<div id="editableVersionDate-1" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
-</div> */}
 
 // Inserting datalist to formStrucutre()
 const createDataList = () => {
@@ -151,6 +123,8 @@ const detailsEditor = () => {
         packageSchema.description = e.target.value;
     })
 }
+
+// Add Dependency part
 
 const dependencyEditor = () => {
 
@@ -348,7 +322,6 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
                 }
 
             })
-            console.log(packageSchema.releases);
         })
 
     })
@@ -437,6 +410,8 @@ const loadEvent = _ => {
 };
 
 window.addEventListener("load", loadEvent);
+
+
 
 
 
