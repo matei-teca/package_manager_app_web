@@ -52,14 +52,14 @@ const formStructure = () => {
         <div class="title"> PACKAGE VERSIONS </div>
 
         <div id="versionItemsContainer">
-        <div id="versionB" class="versionItem">
-            <div class="versionSubItem versionItemBttn">x</div>
-            <div class="versionSubItem">1.18.2</div>
-            <div class="versionSubItem">2022-03-01</div>
+        <div  id="versionId-2" class="versionItem">
+            <div id="versionId-2Bttn" class="versionSubItem versionItemBttn">x</div>
+            <div id="editableVersion-2" class="versionSubItem editableVersion">1.18.2</div>
+            <div id="editableVersionDate-2" class="versionSubItem editableVersionDate">2022-03-01</div>
         </div>
 
-        <div id="versionA" class="versionItem">
-            <div class="versionSubItem versionItemBttn">x</div>
+        <div id="versionId-1" class="versionItem">
+            <div id="versionId-1Bttn" class="versionSubItem versionItemBttn">x</div>
             <div class="versionSubItem" contenteditable="true">1.18.3</div>
             <div class="versionSubItem" contenteditable="true">2022-03-01</div>
         </div>
@@ -126,10 +126,6 @@ const storePackageSchema = () => {
             {
                 "date": "2022-06-01",
                 "version": "8.12.0"
-            },
-            {
-                "date": "2022-05-25",
-                "version": "8.11.0"
             }
         ]
     };
@@ -224,6 +220,9 @@ const deleteSelectedDependency = () => {
 
     let dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
     let dependencyItems = document.querySelectorAll(".dependencyItem");
+
+    let versionBttns = document.querySelectorAll(".versionItemBttn");
+    let versionItems = document.querySelectorAll(".versionItem");
     
     Array.prototype.map.call(dependencyBttns, (bttn) => {
 
@@ -262,13 +261,13 @@ const addVersionEditor = () => {
     let addVersionBttnEl = document.getElementById("addVersionBttn");
     let newVersionValue;
     let newDateValue;
-    let newVersionId = 0;
+    let newVersionIndex = 1;
 
     addVersionBttnEl.addEventListener("click", function(){
         getLatestVersion();
         updatePackageReleasesAKAVersions();
         displayNewVersion();
-        newVersionId++;
+        newVersionIndex++;
 
         console.log(packageSchema)
     })
@@ -277,14 +276,15 @@ const addVersionEditor = () => {
         const versionItemsContainerEl = document.getElementById("versionItemsContainer");
 
         let versionJSX = `
-        <div id="versionId${newVersionId}" class="versionItem">
-            <div class="versionSubItem versionItemBttn">x</div>
-            <div class="versionSubItem" contenteditable="true">${newVersionValue}</div>
-            <div class="versionSubItem" contenteditable="true">${newDateValue}</div>
+        <div id="versionId${newVersionIndex}" class="versionItem">
+            <div id="versionId${newVersionIndex}Bttn" class="versionSubItem versionItemBttn">x</div>
+            <div id="editableVersion${newVersionIndex}" class="versionSubItem editableVersion" contenteditable="true">${newVersionValue}</div>
+            <div id="editableVersionDate${newVersionIndex}" class="versionSubItem editableVersionDate" contenteditable="true">${newDateValue}</div>
         </div>
         `
 
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+        deleteSelectedVersion(newVersionIndex);
     }
 
     const getLatestVersion = () => {
@@ -300,9 +300,48 @@ const addVersionEditor = () => {
     const updatePackageReleasesAKAVersions = () => {
         packageSchema.releases.unshift({"date": newDateValue, "version": newVersionValue})
 
-
     }
     
+    deleteSelectedVersion(newVersionIndex);
+}
+
+const deleteSelectedVersion = (newVersionIndexParam) => {
+
+    let versionBttns = document.querySelectorAll(".versionItemBttn");
+    let versionItems = document.querySelectorAll(".versionItem");
+    
+    Array.prototype.map.call(versionBttns, (bttn) => {
+
+        bttn.addEventListener("click", function(){
+            
+            Array.prototype.map.call(versionItems, (item) => {
+
+                if(bttn.id === item.id + 'Bttn'){
+
+                    //removes the version visually
+                    let itemEl = document.getElementById(item.id);
+                    itemEl.style.display = "none";
+
+                    //removes the version from the releases object
+                    packageSchema.releases.splice(newVersionIndexParam,1)
+
+                    console.log(packageSchema);
+                }
+
+            })
+        })
+
+    })
+
+}
+
+const changeAddedVersion = () => {
+
+    let versionInput
+
+    // .addEventListener("input", function() {
+    //     console.log("input event fired");
+    // }, false);
 }
 
 // Inserting ALL created html elements into rootDiv of index.html
