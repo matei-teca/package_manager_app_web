@@ -287,6 +287,10 @@ const addVersionEditor = () => {
         `
 
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+
+        let currVerionEl = document.getElementById(`versionId${newVersionId}`)
+        currVerionEl.scrollIntoView();
+
         deleteSelectedVersion(newVersionId);
         changeAddedVersion();
     }
