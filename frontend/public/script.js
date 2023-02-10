@@ -104,7 +104,7 @@ const storePackageSchema = () => {
             {
                 "date": "2022-06-01",
                 "version": "8.12.0",
-                "id" : 0
+                "id" : 1
             }
         ]
     };
@@ -238,7 +238,7 @@ const addVersionEditor = () => {
     let addVersionBttnEl = document.getElementById("addVersionBttn");
     let newVersionValue;
     let newDateValue;
-    let newVersionId = 1;
+    let newVersionId = 2;
 
     addVersionBttnEl.addEventListener("click", function(){
         getLatestVersion();
