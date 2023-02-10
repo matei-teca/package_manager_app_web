@@ -52,17 +52,11 @@ const formStructure = () => {
         <div class="title"> PACKAGE VERSIONS </div>
 
         <div id="versionItemsContainer">
-        <div  id="versionId-2" class="versionItem">
-            <div id="versionId-2Bttn" class="versionSubItem versionItemBttn">x</div>
-            <div id="editableVersion-2" class="versionSubItem editableVersion" contenteditable="true">1.18.2</div>
-            <div id="editableVersionDate-2" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
-        </div>
-
-        <div id="versionId-1" class="versionItem">
-            <div id="versionId-1Bttn" class="versionSubItem versionItemBttn">x</div>
-            <div id="editableVersion-1" class="versionSubItem editableVersion" contenteditable="true">1.18.3</div>
-            <div id="editableVersionDate-1" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
-        </div>
+            <div  id="versionId${packageSchema.releases[0].id}" class="versionItem">
+                <div id="versionId${packageSchema.releases[0].id}Bttn" class="versionSubItem versionItemBttn">x</div>
+                <div id="editableVersion${packageSchema.releases[0].id}" class="versionSubItem editableVersion" contenteditable="true">${packageSchema.releases[0].version}</div>
+                <div id="editableVersionDate${packageSchema.releases[0].id}" class="versionSubItem editableVersionDate" contenteditable="true">${packageSchema.releases[0].date}</div>
+            </div>
         </div>
         <div id="addNewVersion" class="versionItem">
         <div id="addVersionBttn" class="versionSubItem versionItemBttn">+</div>
@@ -79,6 +73,18 @@ const formStructure = () => {
     </div>
     `
 }
+
+{/* <div  id="versionId-2" class="versionItem">
+<div id="versionId-2Bttn" class="versionSubItem versionItemBttn">x</div>
+<div id="editableVersion-2" class="versionSubItem editableVersion" contenteditable="true">1.18.2</div>
+<div id="editableVersionDate-2" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
+</div>
+
+<div id="versionId-1" class="versionItem">
+<div id="versionId-1Bttn" class="versionSubItem versionItemBttn">x</div>
+<div id="editableVersion-1" class="versionSubItem editableVersion" contenteditable="true">1.18.3</div>
+<div id="editableVersionDate-1" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
+</div> */}
 
 // Inserting datalist to formStrucutre()
 const createDataList = () => {
@@ -125,7 +131,8 @@ const storePackageSchema = () => {
         "releases": [
             {
                 "date": "2022-06-01",
-                "version": "8.12.0"
+                "version": "8.12.0",
+                "id" : 0
             }
         ]
     };
@@ -220,9 +227,6 @@ const deleteSelectedDependency = () => {
 
     let dependencyBttns = document.querySelectorAll(".dependencyItemBttn");
     let dependencyItems = document.querySelectorAll(".dependencyItem");
-
-    let versionBttns = document.querySelectorAll(".versionItemBttn");
-    let versionItems = document.querySelectorAll(".versionItem");
     
     Array.prototype.map.call(dependencyBttns, (bttn) => {
 
@@ -235,7 +239,6 @@ const deleteSelectedDependency = () => {
                     //removes the package visually
                     let itemEl = document.getElementById(item.id);
                     itemEl.style.display = "none";
-                    // itemEl.style.backgroundColor = "red";
 
                     //removes the package from the dependency object
                     let dependencyId = item.id.split("dependecyId")[1];
@@ -245,7 +248,7 @@ const deleteSelectedDependency = () => {
                         packageSchema.dependencies.splice(index, 1);
                     }
     
-                    console.log(packageSchema);
+                    // console.log(packageSchema);
                 }
 
             })
@@ -261,30 +264,30 @@ const addVersionEditor = () => {
     let addVersionBttnEl = document.getElementById("addVersionBttn");
     let newVersionValue;
     let newDateValue;
-    let newVersionIndex = 1;
+    let newVersionId = 1;
 
     addVersionBttnEl.addEventListener("click", function(){
         getLatestVersion();
         updatePackageReleasesAKAVersions();
         displayNewVersion();
-        newVersionIndex++;
+        newVersionId++;
 
-        console.log(packageSchema)
+        // console.log(packageSchema.releases)
     })
 
     const displayNewVersion = () => {
         const versionItemsContainerEl = document.getElementById("versionItemsContainer");
 
         let versionJSX = `
-        <div id="versionId${newVersionIndex}" class="versionItem">
-            <div id="versionId${newVersionIndex}Bttn" class="versionSubItem versionItemBttn">x</div>
-            <div id="editableVersion${newVersionIndex}" class="versionSubItem editableVersion" contenteditable="true">${newVersionValue}</div>
-            <div id="editableVersionDate${newVersionIndex}" class="versionSubItem editableVersionDate" contenteditable="true">${newDateValue}</div>
+        <div id="versionId${newVersionId}" class="versionItem">
+            <div id="versionId${newVersionId}Bttn" class="versionSubItem versionItemBttn">x</div>
+            <div id="editableVersion${newVersionId}" class="versionSubItem editableVersion" contenteditable="true">${newVersionValue}</div>
+            <div id="editableVersionDate${newVersionId}" class="versionSubItem editableVersionDate" contenteditable="true">${newDateValue}</div>
         </div>
         `
 
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
-        deleteSelectedVersion(newVersionIndex);
+        deleteSelectedVersion(newVersionId);
         changeAddedVersion();
     }
 
@@ -299,11 +302,11 @@ const addVersionEditor = () => {
     }
 
     const updatePackageReleasesAKAVersions = () => {
-        packageSchema.releases.unshift({"date": newDateValue, "version": newVersionValue})
+        packageSchema.releases.unshift({"date": newDateValue, "version": newVersionValue, "id": newVersionId})
 
     }
     
-    deleteSelectedVersion(newVersionIndex);
+    deleteSelectedVersion(newVersionId);
     changeAddedVersion();
 }
 
@@ -325,12 +328,23 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
                     itemEl.style.display = "none";
 
                     //removes the version from the releases object
-                    packageSchema.releases.splice(newVersionIndexParam,1)
+                    let currItemId = item.id.split("versionId")[1];
 
-                    console.log(packageSchema);
+                    packageSchema.releases.map(rItem => {
+
+                        if(rItem.id == currItemId){
+
+                            const index = packageSchema.releases.indexOf(rItem);
+
+                            if (index > -1) { // only splice array when item is found
+                                packageSchema.releases.splice(index, 1);
+                            }
+                        }
+                    })
                 }
 
             })
+            console.log(packageSchema.releases);
         })
 
     })
@@ -341,19 +355,20 @@ const changeAddedVersion = () => {
 
     let versionInputs = document.querySelectorAll(".editableVersion");
     let versionDateInput = document.querySelector(".editableVersionDate");
-    let currInputIndex;
+    let currInputIdInt;
 
-    console.log("works");
+    // console.log("works");
 
     Array.prototype.map.call(versionInputs, input => {
 
         input.addEventListener("input", function(e) {
 
-            currInputIndex = input.id.split("editableVersion")[1];
+            currInputIdInt = parseInt(input.id.split("editableVersion")[1]);
+            // packageSchema.releases.
             // console.log(currInputIndex);
 
-            packageSchema.releases[currInputIndex].version = input.innerText;
-            console.log(packageSchema);
+            // packageSchema.releases[currInputId].version = input.innerText;
+            // console.log(packageSchema);
 
         }, false);
 
@@ -362,7 +377,7 @@ const changeAddedVersion = () => {
     Array.prototype.map.call(versionDateInput, input => {
 
         input.addEventListener("input", function(e) {
-            console.log(input.innerText);
+            // console.log(input.innerText);
         }, false);
 
     });
