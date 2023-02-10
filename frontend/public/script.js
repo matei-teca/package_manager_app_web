@@ -385,11 +385,6 @@ const submit = () => {
         event.preventDefault();
         console.log(packageSchema);
 
-        // fetchDataPost();
-        // window.location = "http://127.0.0.1:9002/edit/package/1";
-
-        // fetchDataPut();
-
         let windowLocation = window.location;
 
         if(windowLocation.href.length < 36){
@@ -402,7 +397,7 @@ const submit = () => {
             console.log("put works");
         }
 
-        
+
     });
 }
 
@@ -427,7 +422,9 @@ const fetchDataPost = () => {
 
 const fetchDataPut = () => {
 
-    fetch("/api/package/:id", {
+    let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
+
+    fetch(`/edit/package/${windowLocationId}`, {
         method: "PUT",
         headers: {
             'Content-type' : 'application/json'

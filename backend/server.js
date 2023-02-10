@@ -38,22 +38,24 @@ app.post("/edit/package/", async (req, res) => {
   fileWriterAsync(filePath, fileData);
 
   res.send({"status" : "DONE"});
-  
-  // Response.redirect('/edit/package/https://www.example.com', 302);
-  // res.send({"status" : "DONE"}).redirect(301, '/edit/package/1');
 
 })
 
-// app.get("/edit/package", (req, res) => {
-//   res.redirect(301, '/edit/package/1');
-// });
 
-
-app.put("/api/package/:id", async (req, res) => {
+app.put("/edit/package/:id", async (req, res) => {
   let data = req.body;
 
+  let currId = parseInt(req.params.id);
+
+  // console.log(req.params.id);
+
   let fileData = JSON.parse(await fileReaderAsync(filePath));
-  fileData.packages[req.params.id-1] = data;
+  fileData.packages[currId-1] = data;
+  fileData = JSON.stringify(fileData, null, 4);
+
+  fileWriterAsync(filePath, fileData);
+
+  res.send({"status" : "DONEput"});
 })
 
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));
