@@ -354,8 +354,9 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
 const changeAddedVersion = () => {
 
     let versionInputs = document.querySelectorAll(".editableVersion");
-    let versionDateInput = document.querySelector(".editableVersionDate");
+    let versionDateInputs = document.querySelectorAll(".editableVersionDate");
     let currInputIdInt;
+    let currDateInputIdInt;
 
     // console.log("works");
 
@@ -364,25 +365,47 @@ const changeAddedVersion = () => {
         input.addEventListener("input", function(e) {
 
             currInputIdInt = parseInt(input.id.split("editableVersion")[1]);
-            // packageSchema.releases.
-            // console.log(currInputIndex);
+            packageSchema.releases.map(item => {
+                if (item.id === currInputIdInt){
+                    item.version = input.innerText;
+                }
+            })
 
-            // packageSchema.releases[currInputId].version = input.innerText;
-            // console.log(packageSchema);
+            console.log(packageSchema.releases);
 
         }, false);
 
     });
 
-    Array.prototype.map.call(versionDateInput, input => {
+    Array.prototype.map.call(versionDateInputs, inputDate => {
 
-        input.addEventListener("input", function(e) {
-            // console.log(input.innerText);
+        inputDate.addEventListener("input", function(e) {
+
+            currDateInputIdInt = parseInt(inputDate.id.split("editableVersionDate")[1]);
+
+            packageSchema.releases.map(item => {
+                if (item.id === currDateInputIdInt){
+                    item.date = inputDate.innerText;
+                }
+            })
+            
+            console.log(packageSchema.releases);
+
         }, false);
 
     });
+}
 
+// Sumbit Button
 
+const submit = () => {
+    // const submitBttnEl = document.getElementById("saveBttn");
+    const formEl = document.getElementById("form1");
+
+    formEl.addEventListener('submit', (event) => {
+        event.preventDefault();
+        console.log(packageSchema);
+    });
 }
 
 // Inserting ALL created html elements into rootDiv of index.html
@@ -400,6 +423,7 @@ const displayForm = () => {
 const loadEvent = _ => {
     storePackageSchema();
     displayForm();
+    submit();
     detailsEditor();
     dependencyEditor();
     addVersionEditor();
