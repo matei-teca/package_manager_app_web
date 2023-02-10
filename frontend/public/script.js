@@ -382,7 +382,28 @@ const submit = () => {
     formEl.addEventListener('submit', (event) => {
         event.preventDefault();
         console.log(packageSchema);
+
+        fetchDataPost();
     });
+}
+
+const fetchDataPost = () => {
+
+    fetch("/api/package/", {
+        method: "POST",
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        body: JSON.stringify(
+            packageSchema
+        )
+    })
+
+    .then(res => res.json())
+    .then(data => {
+        console.log(data)
+    });
+
 }
 
 // Inserting ALL created html elements into rootDiv of index.html
@@ -394,6 +415,7 @@ const displayForm = () => {
     rootEl.className = "rootCentered";
 
     createDataList();
+    submit();
 }
 
 //loadEvent

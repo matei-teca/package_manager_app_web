@@ -3,6 +3,7 @@ const fs = require("fs");
 const dataRoute = "./pkgs.json";
 const path = require("path");
 const fileReaderAsync = require("./fileReader");
+const fileWriterAsync = require("./fileWriter");
 
 const filePath = path.join(`${__dirname}/pkgs.json`);
 const app = express();
@@ -23,6 +24,18 @@ app.use('/public', express.static(`${__dirname}/../frontend/public`));
 app.get("/api/package/", async (req, res) => {
   const fileData = JSON.parse(await fileReaderAsync(filePath));
   res.send(JSON.stringify(fileData));
+})
+
+app.post("/api/package/", async (req, res) => {
+  let data = req.body;
+  let fileData = JSON.parse(await fileReaderAsync(filePath));
+
+  data.id = fileData.packages[fileData.packages.length-1].id + 1;
+  fileData.packages.push(data);
+  fileData = JSON.stringify(fileData, null, 4);
+
+  fileWriterAsync(filePath, fileData);
+  res.send({"status" : "DONE"});
 })
 
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));
