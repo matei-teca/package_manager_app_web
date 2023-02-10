@@ -54,14 +54,14 @@ const formStructure = () => {
         <div id="versionItemsContainer">
         <div  id="versionId-2" class="versionItem">
             <div id="versionId-2Bttn" class="versionSubItem versionItemBttn">x</div>
-            <div id="editableVersion-2" class="versionSubItem editableVersion">1.18.2</div>
-            <div id="editableVersionDate-2" class="versionSubItem editableVersionDate">2022-03-01</div>
+            <div id="editableVersion-2" class="versionSubItem editableVersion" contenteditable="true">1.18.2</div>
+            <div id="editableVersionDate-2" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
         </div>
 
         <div id="versionId-1" class="versionItem">
             <div id="versionId-1Bttn" class="versionSubItem versionItemBttn">x</div>
-            <div class="versionSubItem" contenteditable="true">1.18.3</div>
-            <div class="versionSubItem" contenteditable="true">2022-03-01</div>
+            <div id="editableVersion-1" class="versionSubItem editableVersion" contenteditable="true">1.18.3</div>
+            <div id="editableVersionDate-1" class="versionSubItem editableVersionDate" contenteditable="true">2022-03-01</div>
         </div>
         </div>
         <div id="addNewVersion" class="versionItem">
@@ -285,6 +285,7 @@ const addVersionEditor = () => {
 
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
         deleteSelectedVersion(newVersionIndex);
+        changeAddedVersion();
     }
 
     const getLatestVersion = () => {
@@ -303,6 +304,7 @@ const addVersionEditor = () => {
     }
     
     deleteSelectedVersion(newVersionIndex);
+    changeAddedVersion();
 }
 
 const deleteSelectedVersion = (newVersionIndexParam) => {
@@ -337,11 +339,35 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
 
 const changeAddedVersion = () => {
 
-    let versionInput
+    let versionInputs = document.querySelectorAll(".editableVersion");
+    let versionDateInput = document.querySelector(".editableVersionDate");
+    let currInputIndex;
 
-    // .addEventListener("input", function() {
-    //     console.log("input event fired");
-    // }, false);
+    console.log("works");
+
+    Array.prototype.map.call(versionInputs, input => {
+
+        input.addEventListener("input", function(e) {
+
+            currInputIndex = input.id.split("editableVersion")[1];
+            // console.log(currInputIndex);
+
+            packageSchema.releases[currInputIndex].version = input.innerText;
+            console.log(packageSchema);
+
+        }, false);
+
+    });
+
+    Array.prototype.map.call(versionDateInput, input => {
+
+        input.addEventListener("input", function(e) {
+            console.log(input.innerText);
+        }, false);
+
+    });
+
+
 }
 
 // Inserting ALL created html elements into rootDiv of index.html
