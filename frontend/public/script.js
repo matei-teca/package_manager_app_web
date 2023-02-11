@@ -400,11 +400,11 @@ const submit = () => {
             fetchDataPost();
             window.location = `http://127.0.0.1:9002/edit/package/${objectGreatestPackageId+1}`;
 
-             console.log("post works");
+            //  console.log("post works");
         } else {
             fetchDataPut();
             getCurrPackageData();
-            console.log("put works");
+            // console.log("put works");
         }
 
 
@@ -452,7 +452,7 @@ const fetchDataPut = () => {
 }
 
 const fillPutForm = (data) => {
-    console.log("fillPutForm works");
+    // console.log("fillPutForm works");
 
     console.log(data);
 
@@ -472,7 +472,7 @@ const fillPutForm = (data) => {
 }
 
 const getCurrPackageData = async () => {
-    console.log("getCurrPackageData works");
+    // console.log("getCurrPackageData works");
 
     await fetch(`/api/package/${objectGreatestPackageId+1}`)
     .then(res => res.json())
@@ -480,7 +480,6 @@ const getCurrPackageData = async () => {
         fillPutForm(data)
     }); 
 
-    // fillPutForm();
 }
 
 
