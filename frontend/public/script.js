@@ -80,6 +80,8 @@ const getData = (useData1, useData2) => {
         fetchedData = data;
         useData1(); 
         useData2(); 
+
+        console.log(data)
     }); 
 
    
@@ -452,7 +454,9 @@ const fetchDataPut = () => {
 const fillPutForm = (data) => {
     console.log("fillPutForm works");
 
-    // console.log(fetchedData);
+    console.log(data);
+
+    // console.log(window.location.pathname);
 
     // const nameInputEl = document.getElementById("nameInput");
     // const detailsInputEl = document.getElementById("detailsInput");
@@ -467,16 +471,16 @@ const fillPutForm = (data) => {
     // })
 }
 
-const getCurrPackageData = () => {
+const getCurrPackageData = async () => {
     console.log("getCurrPackageData works");
 
-    fetch(`/api/package/${objectGreatestPackageId+1}`)
+    await fetch(`/api/package/${objectGreatestPackageId+1}`)
     .then(res => res.json())
     .then(data => {
         fillPutForm(data)
     }); 
 
-    fillPutForm()
+    // fillPutForm();
 }
 
 
