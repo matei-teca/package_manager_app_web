@@ -85,12 +85,13 @@ const getData = (useData1, useData2) => {
    
 }
 
+//useData1()
 const getObjectGreatestPackageId = () => {
     objectGreatestPackageId = fetchedData.packages[fetchedData.packages.length-1].id;
     console.log(objectGreatestPackageId);
 }
 
-//useData1()
+//useData2()
 const createDependencyOptions = () => {
 
     dataToDisplay = fetchedData.packages.map((item) => {return {name: item.name, version: item.releases[0].version, id: item.id}});
@@ -201,11 +202,9 @@ const displaySelectedDependency = (el) => {
         currDependency.scrollIntoView();
 
 }
-
 const updatePackageDependencies = () => {
     packageSchema.dependencies.push(dataToDisplayB.id)
 }
-
 const deleteSelectedDependency = () => {
     //if time => todo: 
     // bug when adding the same dependency multiple times, 
@@ -299,7 +298,6 @@ const addVersionEditor = () => {
     deleteSelectedVersion(newVersionId);
     changeAddedVersion();
 }
-
 const deleteSelectedVersion = (newVersionIndexParam) => {
 
     let versionBttns = document.querySelectorAll(".versionItemBttn");
@@ -339,7 +337,6 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
     })
 
 }
-
 const changeAddedVersion = () => {
 
     let versionInputs = document.querySelectorAll(".editableVersion");
@@ -450,6 +447,7 @@ const fetchDataPut = () => {
     });
 
 }
+
 
 
 // Inserting ALL created html elements into rootDiv of index.html
