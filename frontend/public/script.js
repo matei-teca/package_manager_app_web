@@ -9,6 +9,8 @@ let currOptionIndex;
 let dataToDisplay;
 let dataToDisplayB;
 
+let objectGreatestPackageId;
+
 const formStructure = () => {
     return `
     <div id="formContainer">
@@ -68,7 +70,7 @@ const createDataList = () => {
 }
 
 // Fetching the items from pkgs.json via server.js
-const getData = (useData1) => {
+const getData = (useData1, useData2) => {
 
     //WHY IS IT /api/package instead of /edit/package ?????
 
@@ -77,8 +79,15 @@ const getData = (useData1) => {
     .then(data => {
         fetchedData = data;
         useData1(); 
-    });
+        useData2(); 
+    }); 
 
+   
+}
+
+const getObjectGreatestPackageId = () => {
+    objectGreatestPackageId = fetchedData.packages[fetchedData.packages.length-1].id;
+    console.log(objectGreatestPackageId);
 }
 
 //useData1()
@@ -93,6 +102,7 @@ const createDependencyOptions = () => {
         datalistEl.appendChild(dependencyListEl);
 
     });
+
 }
 
 //Store the (package schema) object in a global variable
@@ -136,7 +146,7 @@ const dependencyEditor = () => {
         currValue = e.target.value;
         if(currValue.length > 2 && getFlag){
 
-            getData(createDependencyOptions);
+            getData(getObjectGreatestPackageId, createDependencyOptions);
             getFlag = false;
         }
 
@@ -389,7 +399,7 @@ const submit = () => {
 
         if(windowLocation.href.length < 36){
             fetchDataPost();
-            window.location = "http://127.0.0.1:9002/edit/package/1";
+            window.location = `http://127.0.0.1:9002/edit/package/${objectGreatestPackageId+1}`;
 
              console.log("post works");
         } else {
@@ -456,12 +466,16 @@ const displayForm = () => {
 
 //loadEvent
 const loadEvent = _ => {
+
+    // second callback is added in dependencyEditor()
+    getData(getObjectGreatestPackageId, () => {});
+
     storePackageSchema();
     displayForm();
-    submit();
     detailsEditor();
     dependencyEditor();
     addVersionEditor();
+    submit();
     
     // displayVersionEditorExtra();
     // addVersionEditorExtra();
