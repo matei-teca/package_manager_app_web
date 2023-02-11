@@ -390,7 +390,7 @@ const submit = () => {
 
     formEl.addEventListener('submit', (event) => {
         event.preventDefault();
-        console.log(packageSchema);
+        // console.log(packageSchema);
 
         let windowLocation = window.location;
 
@@ -401,6 +401,7 @@ const submit = () => {
              console.log("post works");
         } else {
             fetchDataPut();
+            getCurrPackageData();
             console.log("put works");
         }
 
@@ -448,6 +449,35 @@ const fetchDataPut = () => {
 
 }
 
+const fillPutForm = (data) => {
+    console.log("fillPutForm works");
+
+    // console.log(fetchedData);
+
+    // const nameInputEl = document.getElementById("nameInput");
+    // const detailsInputEl = document.getElementById("detailsInput");
+    // const dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
+    // const versionItemsContainerEl = document.getElementById("versionItemsContainer");
+
+    // nameInputEl.value = data.name;
+    // detailsInputEl.value = data.description;
+
+    // data.dependencies.map((el) => {
+
+    // })
+}
+
+const getCurrPackageData = () => {
+    console.log("getCurrPackageData works");
+
+    fetch(`/api/package/${objectGreatestPackageId+1}`)
+    .then(res => res.json())
+    .then(data => {
+        fillPutForm(data)
+    }); 
+
+    fillPutForm()
+}
 
 
 // Inserting ALL created html elements into rootDiv of index.html

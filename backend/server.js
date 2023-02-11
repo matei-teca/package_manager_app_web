@@ -27,6 +27,11 @@ app.get("/api/package/", async (req, res) => {
   res.send(JSON.stringify(fileData));
 })
 
+app.get("/api/package/:id", async (req, res) => {
+  const fileData = JSON.parse(await fileReaderAsync(filePath));
+  res.send({"status" : "DONE"});
+})
+
 app.post("/edit/package/", async (req, res) => {
   let data = req.body;
   let fileData = JSON.parse(await fileReaderAsync(filePath));
