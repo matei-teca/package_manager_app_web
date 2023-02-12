@@ -564,6 +564,8 @@ const loadEvent = _ => {
 
 window.addEventListener("load", loadEvent);
 
+
+
 // TODO bug
 // packageSchema.push version/dpendency 
 // Doar daca nu exista deja
