@@ -70,16 +70,24 @@ const createDataList = () => {
 }
 
 // Fetching the items from pkgs.json via server.js
-const getData = (useData1, useData2) => {
+const getData = async (useData1, useData2) => {
 
-    fetch("/api/package/")
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const response = await fetch('/api/package/');
+        let data = await response.json();
+
         fetchedData = data;
         useData1(); 
         useData2(); 
-    }); 
 
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          // Unexpected token < in JSON
+          console.log('There was a SyntaxError', error);
+        } else {
+          console.log('There was an error', error);
+        }
+      }
    
 }
 
@@ -408,47 +416,62 @@ const submit = () => {
     });
 }
 
-const fetchDataPost = () => {
+const fetchDataPost = async () => {
 
-    fetch("/edit/package/", {
-        method: "POST",
-        headers: {
-            'Content-type' : 'application/json'
-        },
-        body: JSON.stringify(
-            packageSchema
-        )
-    })
+    try {
+        const response = await fetch("/edit/package/", {
+                method: "POST",
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify(
+                    packageSchema
+                )
+            })
 
-    .then(res => res.json())
-    .then(data => {
-        console.log(data)
-    });
+        let data = await response.json();
+
+        console.log(data);
+
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          // Unexpected token < in JSON
+          console.log('There was a SyntaxError', error);
+        } else {
+          console.log('There was an error', error);
+        }
+      }
 
 }
 
-const fetchDataPut = () => {
+const fetchDataPut = async () => {
 
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
 
     packageSchema.id = parseInt(windowLocationId);
 
-    fetch(`/edit/package/${windowLocationId}`, {
-        method: "PUT",
-        headers: {
-            'Content-type' : 'application/json'
-        },
-        body: JSON.stringify(
-            packageSchema
-        )
+    try {
+        const response = await fetch(`/edit/package/${windowLocationId}`, {
+                method: "PUT",
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify(
+                    packageSchema
+                )
     })
+    let data = await response.json();
 
-    .then(res => res.json())
-    .then(data => {
+    getCurrPackageData(() => {}, dataRecievedForForm);
 
-        getCurrPackageData(() => {}, dataRecievedForForm);
-
-    });
+    } catch (error) {
+    if (error instanceof SyntaxError) {
+        // Unexpected token < in JSON
+        console.log('There was a SyntaxError', error);
+    } else {
+        console.log('There was an error', error);
+    }
+    }
 
 }
 
@@ -520,36 +543,66 @@ const getCurrPackageData = async (usePackageData1, usePackageData2) => {
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
     windowLocationId = parseInt(windowLocationId)
 
-    await fetch(`/api/package/${windowLocationId}`)
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const response = await fetch(`/api/package/${windowLocationId}`)
+        let data = await response.json();
 
         usePackageData1(data);
-        usePackageData2(data);
-    }); 
+        usePackageData2(data); 
 
+      } catch (error) {
+        if (error instanceof SyntaxError) {
+          // Unexpected token < in JSON
+          console.log('There was a SyntaxError', error);
+        } else {
+          console.log('There was an error', error);
+        }
+      }
 }
 
 const deleteCurrPackage = async (usePackageData1, usePackageData2) => {
 
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
 
-    fetch(`/delete/package/${windowLocationId}`, {
-        method: "DELETE",
-        headers: {
-            'Content-type' : 'application/json'
-        },
-        body: JSON.stringify(
-            packageSchema
-        )
+    // fetch(`/delete/package/${windowLocationId}`, {
+    //     method: "DELETE",
+    //     headers: {
+    //         'Content-type' : 'application/json'
+    //     },
+    //     body: JSON.stringify(
+    //         packageSchema
+    //     )
+    // })
+
+    // .then(res => res.json())
+    // .then(data => {
+
+    //     console.log(data)
+
+    // });
+
+    try {
+        const response = await fetch(`/delete/package/${windowLocationId}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-type' : 'application/json'
+                },
+                body: JSON.stringify(
+                    packageSchema
+                )
     })
+    let data = await response.json();
 
-    .then(res => res.json())
-    .then(data => {
+    console.log(data);
 
-        console.log(data)
-
-    });
+    } catch (error) {
+    if (error instanceof SyntaxError) {
+        // Unexpected token < in JSON
+        console.log('There was a SyntaxError', error);
+    } else {
+        console.log('There was an error', error);
+    }
+    }
 
 }
 
