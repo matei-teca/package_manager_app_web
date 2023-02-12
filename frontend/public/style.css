@@ -56,6 +56,7 @@ body {
     justify-content: center;
     font-family: 'Courier New', Courier, monospace;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    position: relative;
 }
 
 
@@ -138,6 +139,10 @@ body {
 
 }
 
+.dependencyItem{
+    height: 25px;
+}
+
 .dependencySubItem, .versionSubItem{
     /* background-color: pink; */
     display: inline-block;
@@ -165,7 +170,7 @@ body {
 
 #addNewVersion{
     border-bottom: none;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 #addNewVersionBttn{
@@ -189,8 +194,33 @@ body {
     margin-top: 10px;
     cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
+    position: absolute;
+
+}
 
 
+#saveBttn {
+    background-color: black;
+    color: white;
+    top: 560px;
+    margin-left: 7%;
+
+}
+
+#deleteBttn {
+    background-color: white;
+    color: black;
+    top: 600px;
+} 
+
+#saveBttn:hover{
+    color: green;
+}
+
+#deleteBttn:hover{
+    border: 0.1px solid black;
+    /* margin-top: 9.9px; */
+    color: red;
 }
 
 #addCurrVersionBttn {
@@ -209,29 +239,4 @@ body {
 
 #addCurrVersionBttn:hover{
     background-color: green;
-}
-
-#saveBttn {
-    background-color: black;
-    color: white;
-    margin-top: 40px;
-
-}
-
-#deleteBttn {
-    background-color: white;
-    color: black;
-    width: 70%;
-    margin-left: 50px;
-} 
-
-#saveBttn:hover{
-    color: green;
-}
-
-
-#deleteBttn:hover{
-    border: 0.1px solid black;
-    margin-top: 9.9px;
-    color: red;
 }
