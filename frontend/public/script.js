@@ -522,7 +522,7 @@ const fillPutForm = (data) => {
 
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
 
-        packageSchema.releases.unshift({"date": rel.date, "version": rel.version, "id": existingVerionId})
+        packageSchema.releases.push({"date": rel.date, "version": rel.version, "id": existingVerionId})
         console.log(packageSchema.releases);
         existingVerionId++;
 
