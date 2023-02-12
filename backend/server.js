@@ -63,4 +63,16 @@ app.put("/edit/package/:id", async (req, res) => {
   res.send({"status" : "DONEput"});
 })
 
+app.delete("/delete/package/:id", async (req, res) => {
+
+  let fileData = JSON.parse(await fileReaderAsync(filePath));
+  fileData.packages.splice([req.params.id]-1, 1);
+  fileData = JSON.stringify(fileData, null, 4);
+
+  fileWriterAsync(filePath, fileData);
+
+  res.send({"status" : "DONE delete"});
+
+})
+
 app.listen(port, _ => console.log(`http://127.0.0.1:${port}`));

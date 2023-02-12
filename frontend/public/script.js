@@ -52,10 +52,10 @@ const formStructure = () => {
 
     <div class="section">
         <button id="saveBttn" type="submit" form="form1" value="Submit">SAVE PACKAGE</button>
-        <button id="deleteBttn" type="submit" form="form1" value="Delete">DELETE PACKAGE</button>
     </div>
 
     </form>
+    <button id="deleteBttn" value="Delete">DELETE PACKAGE</button>  
     </div>
     `
 }
@@ -530,6 +530,37 @@ const getCurrPackageData = async (usePackageData1, usePackageData2) => {
 
 }
 
+const deleteCurrPackage = async (usePackageData1, usePackageData2) => {
+
+    let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
+
+    fetch(`/delete/package/${windowLocationId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-type' : 'application/json'
+        },
+        body: JSON.stringify(
+            packageSchema
+        )
+    })
+
+    .then(res => res.json())
+    .then(data => {
+
+        console.log(data)
+
+    });
+
+}
+
+const deleteBttnEvent = () => {
+    const deleteBttnEl = document.getElementById("deleteBttn");
+
+    deleteBttnEl.addEventListener("click", function(){
+        deleteCurrPackage();
+    })
+}
+
 
 // Inserting ALL created html elements into rootDiv of index.html
 const displayForm = () => {
@@ -555,6 +586,7 @@ const loadEvent = _ => {
     dependencyEditor();
     addVersionEditor();
     submit();
+    deleteBttnEvent();
 
     if(window.location.href.length >= 36){
         getCurrPackageData(fillPutForm, () => {});

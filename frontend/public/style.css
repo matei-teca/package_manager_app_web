@@ -52,7 +52,7 @@ body {
     background-color: white;
     width: calc(513 / 1.5 * 1px);
     height: calc(1010 / 1.5 * 1px);
-    display: flex;
+    display: block;
     justify-content: center;
     font-family: 'Courier New', Courier, monospace;
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
@@ -176,6 +176,7 @@ body {
     background-color: green;
 }
 
+
 #saveBttn, #deleteBttn{
     width: 80%;
     margin-left: 10%;
@@ -200,7 +201,6 @@ body {
     padding: 10px;
     border: none;
     font-size: small;
-    margin-top: 10px;
     cursor: pointer;
     font-family: 'Courier New', Courier, monospace;
     background-color: white;
@@ -214,12 +214,16 @@ body {
 #saveBttn {
     background-color: black;
     color: white;
+    margin-top: 40px;
+
 }
 
 #deleteBttn {
     background-color: white;
     color: black;
-}
+    width: 70%;
+    margin-left: 50px;
+} 
 
 #saveBttn:hover{
     color: green;
