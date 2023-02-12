@@ -111,7 +111,7 @@ const createDependencyOptions = () => {
 //Store the (package schema) object in a global variable
 const storePackageSchema = () => {
     packageSchema = {
-        "id": 1,
+        "id": parseInt(objectGreatestPackageId + 1),
         "name": "placeholder",
         "description": "",
         "dependencies": [],
@@ -398,12 +398,18 @@ const submit = () => {
 
         if(windowLocation.href.length < 36){
             fetchDataPost();
-            window.location = `http://127.0.0.1:9002/edit/package/${objectGreatestPackageId+1}`;
+            //console.log("post works");
 
-            //  console.log("post works");
+            //Redirect to package updating editor
+            window.location = `http://127.0.0.1:9002/edit/package/${parseInt(objectGreatestPackageId)+1}`;
+
+            //fill up the Package
+            // getCurrPackageData(fillPutForm, () => {});
+
         } else {
             fetchDataPut();
-            getCurrPackageData();
+            // getCurrPackageData(fillPutForm, () => {});
+
             // console.log("put works");
         }
 
@@ -412,6 +418,7 @@ const submit = () => {
 }
 
 const fetchDataPost = () => {
+    // console.log(objectGreatestPackageId)
 
     fetch("/edit/package/", {
         method: "POST",
@@ -432,7 +439,10 @@ const fetchDataPost = () => {
 
 const fetchDataPut = () => {
 
+    console.log(objectGreatestPackageId)
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
+
+    packageSchema.id = parseInt(windowLocationId);
 
     fetch(`/edit/package/${windowLocationId}`, {
         method: "PUT",
@@ -452,9 +462,10 @@ const fetchDataPut = () => {
 }
 
 const fillPutForm = (data) => {
-    // console.log("fillPutForm works");
 
+    console.log("fillPutForm works");
     console.log(data);
+
 
     // console.log(window.location.pathname);
 
@@ -471,13 +482,15 @@ const fillPutForm = (data) => {
     // })
 }
 
-const getCurrPackageData = async () => {
+const getCurrPackageData = async (usePackageData1, usePackageData2) => {
     // console.log("getCurrPackageData works");
 
     await fetch(`/api/package/${objectGreatestPackageId+1}`)
     .then(res => res.json())
     .then(data => {
-        fillPutForm(data)
+
+        usePackageData1(data);
+        usePackageData2(data);
     }); 
 
 }
