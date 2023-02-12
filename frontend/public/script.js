@@ -409,21 +409,19 @@ const submit = () => {
             // setTimeout(function(){
             //     location.reload();
             //     console.log("works");
-            // }
 
-            // ,1000)
-
-
-            //fill up the Package
-            getCurrPackageData(fillPutForm, () => {});
+            //     //fill up the Package
+            //     getCurrPackageData(fillPutForm, () => {});
+            // },1000)
 
         } else {
             
             fetchDataPut();
-            // getCurrPackageData(fillPutForm, () => {});
-
             // console.log("put works");
         }
+
+
+
     });
 }
 
@@ -467,6 +465,10 @@ const fetchDataPut = () => {
     .then(res => res.json())
     .then(data => {
         console.log(data)
+
+        getCurrPackageData(() => {}, dataRecievedForForm);
+
+
     });
 
 }
@@ -474,10 +476,6 @@ const fetchDataPut = () => {
 const fillPutForm = (data) => {
 
     console.log("fillPutForm works");
-    // console.log(data);
-
-    // console.log(fetchedData)
-
 
     const nameInputEl = document.getElementById("nameInput");
     const detailsInputEl = document.getElementById("detailsInput");
@@ -500,6 +498,7 @@ const fillPutForm = (data) => {
             <div class="dependencySubItem">${currDependency.name}</div>
             <div class="dependencySubItem">${currDependency.releases[0].version}</div>
         </div>`;
+        // dependencyItemsContainerEl.innerHTML = "";
         dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
 
         packageSchema.dependencies.push(el)
@@ -520,6 +519,7 @@ const fillPutForm = (data) => {
         </div>
         `
 
+        // versionItemsContainerEl.innerHTML = "";
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
 
         packageSchema.releases.push({"date": rel.date, "version": rel.version, "id": existingVerionId})
@@ -533,6 +533,11 @@ const fillPutForm = (data) => {
     deleteSelectedVersion(existingVerionId);
     changeAddedVersion();
 
+}
+
+// When the PUT request is successful only the form is reloaded with the data received from the server.
+const dataRecievedForForm = (data) => {
+    console.log(data);
 }
 
 const getCurrPackageData = async (usePackageData1, usePackageData2) => {
@@ -587,7 +592,9 @@ const loadEvent = _ => {
 
 window.addEventListener("load", loadEvent);
 
-
+// TODO bug
+// packageSchema.push version/dpendency 
+// Doar daca nu exista deja
 
 
 
