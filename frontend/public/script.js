@@ -418,6 +418,7 @@ const submit = () => {
             getCurrPackageData(fillPutForm, () => {});
 
         } else {
+            
             fetchDataPut();
             // getCurrPackageData(fillPutForm, () => {});
 
@@ -490,7 +491,6 @@ const fillPutForm = (data) => {
     packageSchema.name = data.name;
     packageSchema.description = data.description;
 
-
     data.dependencies.map((el) => {
 
         let currDependency = fetchedData.packages[el-1];
@@ -504,6 +504,11 @@ const fillPutForm = (data) => {
 
         packageSchema.dependencies.push(el)
     })
+
+    // Eliminate the default version from POST form
+    let defaultVersion = document.getElementById(`versionId${packageSchema.releases[0].id}`);
+    defaultVersion.style.display = "none";
+    packageSchema.releases = [];
 
     data.releases.map((rel) => {
 
