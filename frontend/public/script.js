@@ -401,19 +401,25 @@ const submit = () => {
             //console.log("post works");
 
             //Redirect to package updating editor
-            window.location = `http://127.0.0.1:9002/edit/package/${parseInt(objectGreatestPackageId)+1}`;
+            window.location = `http://127.0.0.1:9002/edit/package/${objectGreatestPackageId+1}`;
+
+            // setTimeout(function(){
+            //     location.reload();
+            //     console.log("works");
+            // }
+
+            // ,1000)
+
 
             //fill up the Package
             getCurrPackageData(fillPutForm, () => {});
 
         } else {
             fetchDataPut();
-            getCurrPackageData(fillPutForm, () => {});
+            // getCurrPackageData(fillPutForm, () => {});
 
             // console.log("put works");
         }
-
-
     });
 }
 
@@ -466,20 +472,57 @@ const fillPutForm = (data) => {
     console.log("fillPutForm works");
     console.log(data);
 
+    console.log(fetchedData)
 
-    // console.log(window.location.pathname);
 
-    // const nameInputEl = document.getElementById("nameInput");
-    // const detailsInputEl = document.getElementById("detailsInput");
-    // const dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
-    // const versionItemsContainerEl = document.getElementById("versionItemsContainer");
+    const nameInputEl = document.getElementById("nameInput");
+    const detailsInputEl = document.getElementById("detailsInput");
+    const dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
+    const versionItemsContainerEl = document.getElementById("versionItemsContainer");
+    let existingVerionId = 0;
 
-    // nameInputEl.value = data.name;
-    // detailsInputEl.value = data.description;
+    nameInputEl.value = data.name;
+    detailsInputEl.value = data.description;
+    
+    packageSchema.name = data.name;
+    packageSchema.description = data.description;
 
-    // data.dependencies.map((el) => {
 
-    // })
+    data.dependencies.map((el) => {
+
+        let currDependency = fetchedData.packages[el-1];
+        addedDependencyEl = `
+        <div id="dependecyId${currDependency.id}" class="dependencyItem">
+            <div id="dependecyId${currDependency.id}Bttn" class="dependencySubItem dependencyItemBttn">x</div>
+            <div class="dependencySubItem">${currDependency.name}</div>
+            <div class="dependencySubItem">${currDependency.releases[0].version}</div>
+        </div>`;
+        dependencyItemsContainerEl.insertAdjacentHTML("beforeend", addedDependencyEl);
+
+        packageSchema.dependencies.push(el)
+    })
+
+    data.releases.map((rel) => {
+
+        let versionJSX = `
+        <div id="versionId${existingVerionId}" class="versionItem">
+            <div id="versionId${existingVerionId}Bttn" class="versionSubItem versionItemBttn">x</div>
+            <div id="editableVersion${existingVerionId}" class="versionSubItem editableVersion" contenteditable="true">${rel.version}</div>
+            <div id="editableVersionDate${existingVerionId}" class="versionSubItem editableVersionDate" contenteditable="true">${rel.date}</div>
+        </div>
+        `
+
+        versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+        existingVerionId++;
+
+        packageSchema.releases.push(rel)
+
+    })
+
+    deleteSelectedDependency();
+    deleteSelectedVersion(existingVerionId);
+    changeAddedVersion();
+
 }
 
 const getCurrPackageData = async (usePackageData1, usePackageData2) => {
