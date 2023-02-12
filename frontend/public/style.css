@@ -177,7 +177,7 @@ body {
     margin: 0;
 }
 
-#addNewVersionBttn:hover{
+#addVersionBttn:hover{
     background-color: green;
 }
 
