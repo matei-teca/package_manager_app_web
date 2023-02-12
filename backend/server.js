@@ -28,7 +28,10 @@ app.get("/api/package", async function(req, res, next){
 })
 
 app.get("/api/package/:id", async (req, res, next) => {
-  res.json({"Status": "ok AICI ar trebui sa primesc obiectul pachetului"})
+  // res.json({"Status": "ok AICI ar trebui sa primesc obiectul pachetului"})
+
+  const fileData = JSON.parse(await fileReaderAsync(filePath));
+  res.send(fileData.packages[req.params.id-1])
 });
 
 
