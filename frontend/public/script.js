@@ -251,7 +251,7 @@ const addVersionEditor = () => {
     let addVersionBttnEl = document.getElementById("addVersionBttn");
     let newVersionValue;
     let newDateValue;
-    let newVersionId = 2;
+    let newVersionId = 4;
 
     addVersionBttnEl.addEventListener("click", function(){
         getLatestVersion();
@@ -308,6 +308,9 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
     Array.prototype.map.call(versionBttns, (bttn) => {
 
         bttn.addEventListener("click", function(){
+
+            console.log("deleteSelectedVersion works");
+            console.log(packageSchema.releases);
             
             Array.prototype.map.call(versionItems, (item) => {
 
@@ -470,16 +473,16 @@ const fetchDataPut = () => {
 const fillPutForm = (data) => {
 
     console.log("fillPutForm works");
-    console.log(data);
+    // console.log(data);
 
-    console.log(fetchedData)
+    // console.log(fetchedData)
 
 
     const nameInputEl = document.getElementById("nameInput");
     const detailsInputEl = document.getElementById("detailsInput");
     const dependencyItemsContainerEl = document.getElementById("dependencyItemsContainer");
     const versionItemsContainerEl = document.getElementById("versionItemsContainer");
-    let existingVerionId = 0;
+    let existingVerionId = 2;
 
     nameInputEl.value = data.name;
     detailsInputEl.value = data.description;
@@ -513,9 +516,11 @@ const fillPutForm = (data) => {
         `
 
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
+
+        packageSchema.releases.unshift({"date": rel.date, "version": rel.version, "id": existingVerionId})
+        console.log(packageSchema.releases);
         existingVerionId++;
 
-        packageSchema.releases.push(rel)
 
     })
 
@@ -526,7 +531,7 @@ const fillPutForm = (data) => {
 }
 
 const getCurrPackageData = async (usePackageData1, usePackageData2) => {
-    console.log("getCurrPackageData works");
+    // console.log("getCurrPackageData works");
 
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
     windowLocationId = parseInt(windowLocationId)
