@@ -81,7 +81,7 @@ const getData = (useData1, useData2) => {
         useData1(); 
         useData2(); 
 
-        console.log(data)
+        // console.log(data)
     }); 
 
    
@@ -90,7 +90,7 @@ const getData = (useData1, useData2) => {
 //useData1()
 const getObjectGreatestPackageId = () => {
     objectGreatestPackageId = fetchedData.packages[fetchedData.packages.length-1].id;
-    console.log(objectGreatestPackageId);
+    // console.log(objectGreatestPackageId);
 }
 
 //useData2()
@@ -404,11 +404,11 @@ const submit = () => {
             window.location = `http://127.0.0.1:9002/edit/package/${parseInt(objectGreatestPackageId)+1}`;
 
             //fill up the Package
-            // getCurrPackageData(fillPutForm, () => {});
+            getCurrPackageData(fillPutForm, () => {});
 
         } else {
             fetchDataPut();
-            // getCurrPackageData(fillPutForm, () => {});
+            getCurrPackageData(fillPutForm, () => {});
 
             // console.log("put works");
         }
@@ -483,9 +483,12 @@ const fillPutForm = (data) => {
 }
 
 const getCurrPackageData = async (usePackageData1, usePackageData2) => {
-    // console.log("getCurrPackageData works");
+    console.log("getCurrPackageData works");
 
-    await fetch(`/api/package/${objectGreatestPackageId+1}`)
+    let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
+    windowLocationId = parseInt(windowLocationId)
+
+    await fetch(`/api/package/${windowLocationId}`)
     .then(res => res.json())
     .then(data => {
 
@@ -513,6 +516,10 @@ const loadEvent = _ => {
 
     // second callback is added in dependencyEditor()
     getData(getObjectGreatestPackageId, () => {});
+
+    if(window.location.href.length >= 36){
+        getCurrPackageData(fillPutForm, () => {});
+    }
 
     storePackageSchema();
     displayForm();
