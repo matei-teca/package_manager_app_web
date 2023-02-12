@@ -72,16 +72,12 @@ const createDataList = () => {
 // Fetching the items from pkgs.json via server.js
 const getData = (useData1, useData2) => {
 
-    //WHY IS IT /api/package instead of /edit/package ?????
-
     fetch("/api/package/")
     .then(res => res.json())
     .then(data => {
         fetchedData = data;
         useData1(); 
         useData2(); 
-
-        // console.log(data)
     }); 
 
    
@@ -90,7 +86,6 @@ const getData = (useData1, useData2) => {
 //useData1()
 const getObjectGreatestPackageId = () => {
     objectGreatestPackageId = fetchedData.packages[fetchedData.packages.length-1].id;
-    // console.log(objectGreatestPackageId);
 }
 
 //useData2()
@@ -235,7 +230,6 @@ const deleteSelectedDependency = () => {
                         packageSchema.dependencies.splice(index, 1);
                     }
     
-                    // console.log(packageSchema);
                 }
 
             })
@@ -258,8 +252,6 @@ const addVersionEditor = () => {
         updatePackageReleasesAKAVersions();
         displayNewVersion();
         newVersionId++;
-
-        // console.log(packageSchema.releases)
     })
 
     const displayNewVersion = () => {
@@ -309,9 +301,6 @@ const deleteSelectedVersion = (newVersionIndexParam) => {
 
         bttn.addEventListener("click", function(){
 
-            console.log("deleteSelectedVersion works");
-            console.log(packageSchema.releases);
-            
             Array.prototype.map.call(versionItems, (item) => {
 
                 if(bttn.id === item.id + 'Bttn'){
@@ -348,8 +337,6 @@ const changeAddedVersion = () => {
     let versionDateInputs = document.querySelectorAll(".editableVersionDate");
     let currInputIdInt;
     let currDateInputIdInt;
-
-    // console.log("works");
 
     Array.prototype.map.call(versionInputs, input => {
 
@@ -390,21 +377,19 @@ const changeAddedVersion = () => {
 // Sumbit Button
 
 const submit = () => {
-    // const submitBttnEl = document.getElementById("saveBttn");
     const formEl = document.getElementById("form1");
 
     formEl.addEventListener('submit', (event) => {
         event.preventDefault();
-        // console.log(packageSchema);
 
         let windowLocation = window.location;
 
         if(windowLocation.href.length < 36){
             fetchDataPost();
-            //console.log("post works");
 
             //Redirect to package updating editor
-            window.location = `http://127.0.0.1:9002/edit/package/${objectGreatestPackageId+1}`;
+            window.location.href = `http://127.0.0.1:9002/edit/package/${objectGreatestPackageId+1}`;
+            getData();
 
             // setTimeout(function(){
             //     location.reload();
@@ -415,9 +400,7 @@ const submit = () => {
             // },1000)
 
         } else {
-            
             fetchDataPut();
-            // console.log("put works");
         }
 
 
@@ -426,7 +409,6 @@ const submit = () => {
 }
 
 const fetchDataPost = () => {
-    // console.log(objectGreatestPackageId)
 
     fetch("/edit/package/", {
         method: "POST",
@@ -447,7 +429,6 @@ const fetchDataPost = () => {
 
 const fetchDataPut = () => {
 
-    console.log(objectGreatestPackageId)
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
 
     packageSchema.id = parseInt(windowLocationId);
@@ -464,18 +445,14 @@ const fetchDataPut = () => {
 
     .then(res => res.json())
     .then(data => {
-        console.log(data)
 
         getCurrPackageData(() => {}, dataRecievedForForm);
-
 
     });
 
 }
 
 const fillPutForm = (data) => {
-
-    console.log("fillPutForm works");
 
     const nameInputEl = document.getElementById("nameInput");
     const detailsInputEl = document.getElementById("detailsInput");
@@ -519,11 +496,9 @@ const fillPutForm = (data) => {
         </div>
         `
 
-        // versionItemsContainerEl.innerHTML = "";
         versionItemsContainerEl.insertAdjacentHTML("afterbegin", versionJSX);
 
-        packageSchema.releases.push({"date": rel.date, "version": rel.version, "id": existingVerionId})
-        console.log(packageSchema.releases);
+        packageSchema.releases.push({"date": rel.date, "version": rel.version, "id": existingVerionId});
         existingVerionId++;
 
 
@@ -541,7 +516,6 @@ const dataRecievedForForm = (data) => {
 }
 
 const getCurrPackageData = async (usePackageData1, usePackageData2) => {
-    // console.log("getCurrPackageData works");
 
     let windowLocationId = window.location.href.slice(window.location.href.length-1, window.location.href.length);
     windowLocationId = parseInt(windowLocationId)
@@ -575,19 +549,17 @@ const loadEvent = _ => {
     // second callback is added in dependencyEditor()
     getData(getObjectGreatestPackageId, () => {});
 
-    if(window.location.href.length >= 36){
-        getCurrPackageData(fillPutForm, () => {});
-    }
-
     storePackageSchema();
     displayForm();
     detailsEditor();
     dependencyEditor();
     addVersionEditor();
     submit();
-    
-    // displayVersionEditorExtra();
-    // addVersionEditorExtra();
+
+    if(window.location.href.length >= 36){
+        getCurrPackageData(fillPutForm, () => {});
+    }
+
 };
 
 window.addEventListener("load", loadEvent);
